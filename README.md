@@ -17,7 +17,7 @@ conda env create -f environment.yml
 Note that we use a slightly [modified version of captum](https://github.com/aleks-krasowski/captum) which allows for computing influence on arbitrary function outputs $f(x,\cdot)$, instead of being limited to loss terms:
 
 $$
-\operatorname{Inf}_{f(x,\cdot)} (z_i) := \nabla_{\hat\theta} f(x;\hat\theta) \cdot H_{\hat\theta}^{-1} \cdot \nabla_{\hat\theta} L(z_i; \hat\theta) 
+\text{Inf}_{f(x,\cdot)} (z_i) := \nabla_{\hat\theta} f(x;\hat\theta) \cdot H_{\hat\theta}^{-1} \cdot \nabla_{\hat\theta} L(z_i; \hat\theta) 
 $$
 
 Please furthermore set up the deepxde backend from inside the environment to PyTorch.
