@@ -84,4 +84,4 @@ Please use the following citation when referencing PINNfluence in literature:
 
 ## License
 
-This project is licensed under the BSD-3 Clause License. Please see the [LICENSE](./LICENSE) file for more information.
+This project is licensed under the BSD-3-Clause-Clear License. Please see the [LICENSE](./LICENSE) file for more information.
