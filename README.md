@@ -71,7 +71,15 @@ They were trained with the arguments provided in the **Training** section.
 Please use the following citation when referencing PINNfluence in literature:
 
 ```bibtex
-placeholder
+@misc{naujoks2024pinnfluenceinfluencefunctionsphysicsinformed,
+      title={PINNfluence: Influence Functions for Physics-Informed Neural Networks}, 
+      author={Jonas R. Naujoks and Aleksander Krasowski and Moritz Weckbecker and Thomas Wiegand and Sebastian Lapuschkin and Wojciech Samek and René P. Klausen},
+      year={2024},
+      eprint={2409.08958},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2409.08958}, 
+}
 ```
 
 ## License
