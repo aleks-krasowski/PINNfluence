@@ -1,6 +1,6 @@
 # PINNfluence: Influence Functions for PINNs
 
-This repository is the official implementation of _PINNfluence: Influence Functions for PINNs_. 
+This repository is the official implementation of [PINNfluence: Influence Functions for PINNs](https://arxiv.org/abs/2409.08958). 
 
 Authors: Jonas R. Naujoks<sup>1</sup>, Aleksander Krasowski<sup>1</sup>, Moritz Weckbecker, Thomas Wiegand, Sebastian Lapuschkin, Wojciech Samek, René P. Klausen
 
