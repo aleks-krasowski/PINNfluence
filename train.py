@@ -56,8 +56,6 @@ def navier_stokes(xy, out):
 def navier_stokes_broken(xy, out):
     """Navier-Stokes equation"""
     rho = 1.0
-    nu = 0.001
-    eps = 1e-8
 
     u = out[:, 0:1]
     v = out[:, 1:2]
