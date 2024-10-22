@@ -6,6 +6,10 @@ Authors: Jonas R. Naujoks<sup>1</sup>, Aleksander Krasowski<sup>1</sup>, Moritz 
 
 <sup>1</sup> Equal contribution.
 
+### Abstract 
+
+Recently, physics-informed neural networks (PINNs) have emerged as a flexible and promising application of deep learning to partial differential equations in the physical sciences. While offering strong performance and competitive inference speeds on forward and inverse problems, their black-box nature limits interpretability, particularly regarding alignment with expected physical behavior. In the present work, we explore the application of influence functions (IFs) to validate and debug PINNs post-hoc. Specifically, we apply variations of IF-based indicators to gauge the influence of different types of collocation points on the prediction of PINNs applied to a 2D Navier-Stokes fluid flow problem. Our results demonstrate how IFs can be adapted to PINNs to reveal the potential for further studies.
+
 ## Requirements
 
 To install requirements:
@@ -27,6 +31,8 @@ python -m deepxde.backend.set_default_backend pytorch
 ```
 
 ## Training
+
+We implement a 2D stationary Navier-Stokes fluid flow in DeepXDE.
 
 To train the model(s) in the paper, run this command:
 
