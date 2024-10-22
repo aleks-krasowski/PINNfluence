@@ -32,7 +32,7 @@ python -m deepxde.backend.set_default_backend pytorch
 
 ## Training
 
-We implement a 2D stationary Navier-Stokes fluid flow in DeepXDE.
+We implement a 2D stationary Navier-Stokes fluid flow around a cylinder in DeepXDE.
 
 To train the model(s) in the paper, run this command:
 
