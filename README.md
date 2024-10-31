@@ -1,93 +1,93 @@
-# PINNFluence
+# PINNfluence: Influence Functions for PINNs
 
+This repository is the official implementation of [PINNfluence: Influence Functions for PINNs](https://arxiv.org/abs/2409.08958). 
 
+Authors: Jonas R. Naujoks<sup>1</sup>, Aleksander Krasowski<sup>1</sup>, Moritz Weckbecker, Thomas Wiegand, Sebastian Lapuschkin, Wojciech Samek, René P. Klausen
 
-## Getting started
+<sup>1</sup> Equal contribution.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### Abstract 
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Recently, physics-informed neural networks (PINNs) have emerged as a flexible and promising application of deep learning to partial differential equations in the physical sciences. While offering strong performance and competitive inference speeds on forward and inverse problems, their black-box nature limits interpretability, particularly regarding alignment with expected physical behavior. In the present work, we explore the application of influence functions (IFs) to validate and debug PINNs post-hoc. Specifically, we apply variations of IF-based indicators to gauge the influence of different types of collocation points on the prediction of PINNs applied to a 2D Navier-Stokes fluid flow problem. Our results demonstrate how IFs can be adapted to PINNs to reveal the potential for further studies.
 
-## Add your files
+## Requirements
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+To install requirements:
 
-```
-cd existing_repo
-git remote add origin https://gitlab.fe.hhi.de/pinns/pinnfluence.git
-git branch -M main
-git push -uf origin main
+```setup
+conda env create -f environment.yml
 ```
 
-## Integrate with your tools
+Note that we use a slightly [modified version of captum](https://github.com/aleks-krasowski/captum) which allows for computing influence on arbitrary function outputs $f(x,\cdot)$, instead of being limited to loss terms:
 
-- [ ] [Set up project integrations](https://gitlab.fe.hhi.de/pinns/pinnfluence/-/settings/integrations)
+$$
+Inf_{f(x,\cdot)} (z_i) := \nabla_{\hat\theta} f(x;\hat\theta) \cdot H_{\hat\theta}^{-1} \cdot \nabla_{\hat\theta} L(z_i; \hat\theta) 
+$$
 
-## Collaborate with your team
+Please furthermore set up the deepxde backend from inside the environment to PyTorch.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash 
+python -m deepxde.backend.set_default_backend pytorch
+```
 
-## Test and Deploy
+## Training
 
-Use the built-in continuous integration in GitLab.
+We implement a 2D stationary Navier-Stokes fluid flow around a cylinder in DeepXDE.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+To train the model(s) in the paper, run this command:
 
-***
+```bash 
+# good 
+python train.py --save_path ./model_zoo/good
 
-# Editing this README
+# broken
+python train.py --broken --save_path ./model_zoo/broken
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+# bad
+python train.py --num_domain 1500 --num_boundary 500 --save_path ./model_zoo/broken
+```
 
-## Suggestions for a good README
+To calculate influences please run the following. The results will be stored in the `save_path` argument provided.
+To speed up calculation a high batch size and a GPU or TPU is recommended. It should be automatically selected if available.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```bash 
+# good 
+# please adjust model checkpoint if necessary
+python calc_influences.py --checkpoint ./model_zoo/good/lbfgs-116386.pt --save_path ./model_zoo/good_influences --train_x_path ./model_zoo/good/train_x.npy --batch_size <what_your_hardware_allows>
 
-## Name
-Choose a self-explaining name for your project.
+# broken 
+python calc_influences.py --broken --checkpoint ./model_zoo/broken/lbfgs-122314.pt --save_path ./model_zoo/broken_influences --train_x_path ./model_zoo/broken/train_x.npy --batch_size <what_your_hardware_allows>
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+# bad
+python calc_influences.py --checkpoint ./model_zoo/bad/lbfgs-107271.pt --save_path ./model_zoo/bad_influences --train_x_path ./model_zoo/bad/train_x.npy --batch_size <what_your_hardware_allows>
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Evaluation
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Please run the `eval.ipynb` to generate all figures and results used in the paper. Feel free to experiment around and create more figures.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+## Pre-trained Models
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+As the models are fairly small they can be found directly in the `model_zoo` directory.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+They were trained with the arguments provided in the **Training** section.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+## Citing 
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Please use the following citation when referencing PINNfluence in literature:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+```bibtex
+@misc{naujoks2024pinnfluenceinfluencefunctionsphysicsinformed,
+      title={PINNfluence: Influence Functions for Physics-Informed Neural Networks}, 
+      author={Jonas R. Naujoks and Aleksander Krasowski and Moritz Weckbecker and Thomas Wiegand and Sebastian Lapuschkin and Wojciech Samek and René P. Klausen},
+      year={2024},
+      eprint={2409.08958},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2409.08958}, 
+}
+```
 
 ## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+This project is licensed under the BSD-3-Clause-Clear License. Please see the [LICENSE](./LICENSE) file for more information.

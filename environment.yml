@@ -1,0 +1,16 @@
+name: pinnfluence
+channels:
+- pytorch
+- conda-forge
+dependencies:
+- deepxde==1.12.1
+- jupyter
+- jupyterlab
+- matplotlib==3.9.2
+- numpy==1.26.4
+- python=3.11
+- pytorch::pytorch==2.3
+- tqdm==4.66.5
+- pip
+- pip:
+  - git+https://github.com/aleks-krasowski/captum.git
