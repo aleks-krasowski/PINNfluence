@@ -8,7 +8,7 @@ import sys
 sys.path.append("../..")
 
 from _utils.models import ScaledFNN
-from _utils.utils import StopOnBrokenLBFGS
+from _utils.utils import StopOnBrokenLBFGS, set_default_device
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Navier-Stokes Solver")
@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument('--num_boundary', type=int, default=2_500, help='Number of boundary points')
     parser.add_argument('--save_path', type=str, default='./model_zoo', help='Path to save model')
     parser.add_argument("--broken", action="store_true", help="Use broken navier stokes equation")
-    parser.add_argument("--device", type=str, default="cpu", help="Device to use")
+    parser.add_argument("--device", type=str, default="mps", help="Device to use")
     return parser.parse_args()
 
 

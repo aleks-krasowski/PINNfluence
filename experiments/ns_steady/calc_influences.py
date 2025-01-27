@@ -25,6 +25,9 @@ sys.path.append("../..")
 
 from _utils.models import PINNLoss, NetPredWrapper, NetworkWithPDE, ScaledFNN
 from _utils.dataset import DummyDataset
+from _utils.utils import set_default_device
+
+set_default_device("mps")
 
 dde.config.set_random_seed(42)
 
