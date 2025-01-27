@@ -102,10 +102,10 @@ def main(args):
     print(f"train data shape: {train_x.shape}")
     trainset = DummyDataset(train_x, return_zeroes=True)
 
-    if_instance = captum.influence.NaiveInfluenceFunction(
     if batch_size is None:
         batch_size = len(trainset)
 
+    if_instance = captum.influence.ArnoldiInfluenceFunction(
         pde_net,
         train_dataset=trainset,
         checkpoint=args.checkpoint,
