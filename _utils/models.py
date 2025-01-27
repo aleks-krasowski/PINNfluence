@@ -169,7 +169,7 @@ class ModelWrapper(torch.nn.Module):
         if self.bcs is not None:
             for bc in self.bcs:
                 bc_loss = torch.zeros((x.shape[0], 1), device=x.device)
-                bc_mask = torch.tensor(bc.on_boundary(x_np, np.ones_like(x_np[:, 0])))
+                bc_mask = torch.tensor(bc.on_boundary(x_np, np.ones_like(x_np[:, 0]))).bool()
 
                 if bc_mask.any():
                     x_subset = x[bc_mask].clone().detach().requires_grad_(True)
