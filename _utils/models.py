@@ -1,7 +1,9 @@
 import deepxde as dde
+import numpy as np
 import torch
 
 from typing import Iterable, Tuple, Literal, Callable
+
 
 class ScaledFNN(dde.maps.FNN):
     """Fully-connected neural network with input scaling."""
@@ -20,11 +22,12 @@ class ScaledFNN(dde.maps.FNN):
 
         return super().forward(scaled_inputs)
 
+
 class NetPredWrapper(torch.nn.Module):
     def __init__(
-            self,
-            net,
-            pred_idx,
+        self,
+        net,
+        pred_idx,
     ):
         super(NetPredWrapper, self).__init__()
         self.pred_idx = pred_idx
@@ -43,14 +46,15 @@ class NetPredWrapper(torch.nn.Module):
 
         return u[:, self.pred_idx].view(-1, 1)
 
+
 class PINNLoss(torch.nn.modules.loss._Loss):
     def __init__(
-            self,
-            reduction: str = "none",
-            include_all_losses: bool = True,
-            include_specific_ids: int = None,
-            mode: Literal["mse", "l1"] = "mse",
-            weights: Iterable[int] = None,
+        self,
+        reduction: str = "none",
+        include_all_losses: bool = True,
+        include_specific_ids: int = None,
+        mode: Literal["mse", "l1"] = "mse",
+        weights: Iterable[int] = None,
     ):
         """
         This class assumes that inputs come from the NetworkWithPDE class.
@@ -91,27 +95,21 @@ class PINNLoss(torch.nn.modules.loss._Loss):
             raise ValueError("Mode must be either 'mse' or 'l1'.")
 
         assert include_all_losses != (
-                    include_specific_ids is not None), "include_all_losses and include_specific_ids are mutually exlusive. Please either include all losses or specify individual IDs."
+            include_specific_ids is not None
+        ), "include_all_losses and include_specific_ids are mutually exlusive. Please either include all losses or specify individual IDs."
 
     def forward(self, input, target):
-        # find out which is the input
-        # target is assumed to consist only of 0
-        if input.sum().item() == 0 and target.sum().item() != 0:
-            # if input is only zeros then the target is the actual loss input
-            # target is then no longer necessary
-            input = target
-
         # drop unneeded predictions
         if self.include_specific_ids is not None:
             input = input[:, self.include_specific_ids]
 
         losses = input
         if self.mode == "mse":
-            losses = losses ** 2
+            losses = losses**2
         elif self.mode == "l1":
             losses = losses.abs()
 
-        #losses = losses.sum(axis=1)
+        # losses = losses.sum(axis=1)
         if self.weights is not None:
             losses *= self.weights
 
