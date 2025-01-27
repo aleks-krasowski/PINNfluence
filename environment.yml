@@ -3,7 +3,6 @@ channels:
 - pytorch
 - conda-forge
 dependencies:
-- deepxde==1.12.1
 - jupyter
 - jupyterlab
 - matplotlib==3.9.2
@@ -14,3 +13,4 @@ dependencies:
 - pip
 - pip:
   - git+https://github.com/aleks-krasowski/captum.git
+  - git+https://github.com/aleks-krasowski/deepxde.git
