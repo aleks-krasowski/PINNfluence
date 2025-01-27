@@ -113,7 +113,6 @@ class PINNLoss(torch.nn.modules.loss._Loss):
         if self.weights is not None:
             losses *= self.weights
 
-
         if self.reduction == "mean":
             return losses.mean()
         elif self.reduction == "none":
@@ -123,97 +122,80 @@ class PINNLoss(torch.nn.modules.loss._Loss):
         else:
             raise NotImplementedError(f"Reduction {self.reduction} not implemented")
 
-class NetworkWithPDE(torch.nn.Module):
-    def __init__(
-            self,
-            pinn: torch.nn.Module,
-            pdes: Iterable[Callable[[torch.Tensor, torch.Tensor], torch.Tensor]] = None,
-            bcs: Iterable[Tuple[dde.icbc.BC, Callable[[torch.Tensor], torch.Tensor]]] = None,
-            ics: Iterable[Tuple[dde.icbc.IC, Callable[[torch.Tensor], torch.Tensor]]] = None,
-            geom: dde.geometry.Geometry = None
-    ):
-        """
 
-        Args:
-            pinn: physics informed neural network
-            pdes: partial derivative functions
-            bcs: boundary conditions and on_boundary checkers
-            ics: initial conditions and on_boundary checkers
-        """
-        super(NetworkWithPDE, self).__init__()
-        self.pinn = pinn
-        self.pdes = pdes
-        self.geom = geom
+class ModelWrapper(torch.nn.Module):
+    def __init__(
+        self,
+        net: torch.nn.Module,
+        pde: Callable,
+        bcs: Iterable[dde.icbc.BC] = None,
+        include_pde: bool = True,
+    ):
+        super(ModelWrapper, self).__init__()
+        self.net = net
+        self.pde = pde
         self.bcs = bcs
-        self.ics = ics
-        self.n_pdes = len(pdes) if pdes is not None else 0
         self.n_bcs = len(bcs) if bcs is not None else 0
-        self.n_ics = len(ics) if ics is not None else 0
-        self.n_loss_terms = self.n_pdes + self.n_bcs + self.n_ics
+        self.include_pde = include_pde
+
+        assert (
+            include_pde or bcs is not None
+        ), "At least one of PDEs or BCs must be included."
+
+        self.net.eval()
 
     def forward(self, x):
         x_np = x.detach().cpu().numpy()
-        # similarityInfluence disables this for whatever reason
-        # better safe than sorry
+
         torch.autograd.set_grad_enabled(True)
         if not x.requires_grad:
             x = x.requires_grad_(True)
-        u = self.pinn(x)
+        outputs = self.net(x)
 
-        total_loss = torch.zeros((u.shape[0], self.n_loss_terms))
+        # Handle PDE outputs as list
+        losses = []
+        if self.include_pde:
+            f = self.pde(x, outputs)
+            if not isinstance(f, (list, tuple)):
+                f = [f]
+            losses.extend([fi.view(-1, 1) for fi in f])
 
-        if self.pdes is not None:
-            for e, pde in enumerate(self.pdes):
-                pde_out = pde(x, u).sum(axis=1).view(-1,1)
-                total_loss[:, e:e+1] += pde_out
-
+        # Handle boundary conditions
         if self.bcs is not None:
-            for e, (bc, on_boundary) in enumerate(self.bcs, start=self.n_pdes):
-                bc_loss = torch.zeros((u.shape[0],1))
-                bc_subset = on_boundary(x).bool() & torch.from_numpy(self.geom.on_boundary(x_np)).bool().to(x.device)
+            for bc in self.bcs:
+                bc_loss = torch.zeros((x.shape[0], 1), device=x.device)
+                bc_mask = torch.tensor(bc.on_boundary(x_np, np.ones_like(x_np[:, 0])))
 
-                if bc_subset.any():
-                    if bc_subset.all():
-                        x_subset = x
-                        u_subset = u
-                    else:
-                        x_subset = x[bc_subset].clone().detach().requires_grad_(True)
-                        u_subset = self.pinn(x_subset)
+                if bc_mask.any():
+                    x_subset = x[bc_mask].clone().detach().requires_grad_(True)
+                    outputs_subset = self.net(x_subset)
 
+                    # NOTE:
+                    # in NeumannBC and RobinBC
+                    # the first argument (X) is incorrectly handled by deepxde if gradient is enabled
+                    # make the following adjustments in deepxde/icbc/boundary_conditions.py
+                    """
+                    def normal_derivative(self, X, inputs, outputs, beg, end):
+                        dydx = grad.jacobian(outputs, inputs, i=self.component, j=None)[beg:end]
+                        if backend_name == 'pytorch' and X.requires_grad:
+                            n = self.boundary_normal(X.clone().detach().numpy(), beg, end, None)
+                        else:
+                            n = self.boundary_normal(X, beg, end, None)
+                        return bkd.sum(dydx * n, 1, keepdims=True)
+                    """
+                    # NOTE: there may be a cleaner solution - yet to be found
                     bc_loss_curr = bc.error(
-                        x_subset,  # X
-                        x_subset,  # inputs
-                        u_subset,  # outputs
-                        0,  # start_idx
-                        bc_subset.sum()  # end_idx
+                        x_subset,
+                        x_subset,
+                        outputs_subset,
+                        0,
+                        bc_mask.sum(),
                     )
-                    bc_loss[bc_subset] += bc_loss_curr
+                    bc_loss[bc_mask] = bc_loss_curr
 
-                total_loss[:, e:e+1] += bc_loss
+                losses.append(bc_loss)
 
-        if self.ics is not None:
-            for e, (ic, on_boundary) in enumerate(self.ics, self.n_pdes + self.n_bcs):
-                ic_loss = torch.zeros((u.shape[0], 1))
-                ic_subset = on_boundary(x)  & torch.from_numpy(self.geom.on_boundary(x_np)).bool().to(x.device)
-
-                if ic_subset.any():
-                    if ic_subset.all():
-                        x_subset = x
-                        u_subset = u
-                    else:
-                        x_subset = x[ic_subset].clone().detach().requires_grad_(True)
-                        u_subset = self.pinn(x_subset)
-
-                    ic_loss_curr = ic.error(
-                        x_subset,  # X
-                        x_subset,  # inputs
-                        u_subset,  # outputs
-                        0,  # start_idx
-                        ic_subset.sum()  # end_idx
-                    )
-                    ic_loss[ic_subset] += ic_loss_curr
-
-                total_loss[:, e:e+1] += ic_loss
-        # dde will cache all gradients filling up memory very quickly
+        # Stack all losses
+        total_loss = torch.cat(losses, dim=1)
         dde.grad.clear()
         return total_loss
