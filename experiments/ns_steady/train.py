@@ -4,9 +4,11 @@ from pathlib import Path
 import deepxde as dde
 import numpy as np
 
+import sys 
+sys.path.append("../..")
+
 from _utils.models import ScaledFNN
 from _utils.utils import StopOnBrokenLBFGS
-
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Navier-Stokes Solver")

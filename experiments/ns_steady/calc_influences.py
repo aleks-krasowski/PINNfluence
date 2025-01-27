@@ -4,8 +4,6 @@ import deepxde as dde
 import numpy as np
 import torch
 from pathlib import Path
-from _utils.models import PINNLoss, NetPredWrapper, NetworkWithPDE, ScaledFNN
-from _utils.dataset import DummyDataset
 from train import (
     navier_stokes,
     navier_stokes_broken,
@@ -21,6 +19,12 @@ from train import (
     cylinder_center,
     radius
 )
+
+import sys 
+sys.path.append("../..")
+
+from _utils.models import PINNLoss, NetPredWrapper, NetworkWithPDE, ScaledFNN
+from _utils.dataset import DummyDataset
 
 dde.config.set_random_seed(42)
 
