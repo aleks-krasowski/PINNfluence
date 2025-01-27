@@ -138,6 +138,11 @@ class ModelWrapper(torch.nn.Module):
         self.n_bcs = len(bcs) if bcs is not None else 0
         self.include_pde = include_pde
 
+        if self.bcs is not None:
+            for bc in self.bcs:
+                if isinstance(bc, dde.icbc.initial_conditions.IC):
+                    bc.on_boundary = bc.on_initial
+
         assert (
             include_pde or bcs is not None
         ), "At least one of PDEs or BCs must be included."
