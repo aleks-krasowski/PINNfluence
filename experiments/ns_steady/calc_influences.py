@@ -35,7 +35,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Calculate Influence Function')
     parser.add_argument("--checkpoint", type=str, default="./model_zoo/good/lbfgs-125000.pt", help="Model checkpoint to use")
     parser.add_argument("--layers", type=int, nargs="+", default=[2, 64, 64, 64, 64, 3], help="Layer sizes")
-    parser.add_argument("--batch_size", type=int, default=1, help='batch size for the dataloaders')
+    parser.add_argument("--batch_size", type=int, default=None, help='batch size for the dataloaders')
     parser.add_argument("--train_x_path", type=str, help='Path to numpy file containing training data', required=True)
     parser.add_argument("--broken", action="store_true", help="Use broken PDE")
     parser.add_argument('--save_path', type=str, default='./model_zoo/influences', help='Path to save model')
@@ -103,6 +103,9 @@ def main(args):
     trainset = DummyDataset(train_x, return_zeroes=True)
 
     if_instance = captum.influence.NaiveInfluenceFunction(
+    if batch_size is None:
+        batch_size = len(trainset)
+
         pde_net,
         train_dataset=trainset,
         checkpoint=args.checkpoint,
@@ -119,7 +122,7 @@ def main(args):
     test_x = np.array(np.load("./dataset/ns_steady.npy", allow_pickle=True).item()['coords']).astype(np.float32)
     print(f"test data shape: {test_x.shape}")
     testset = DummyDataset(test_x, return_zeroes=True)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle=False)
+    testloader = torch.utils.data.DataLoader(testset, batch_size=max(batch_size, len(testset)), shuffle=False)
 
     # calculate f(x) influence for model output dimensions
     # fourth dimension is vector norm of 0 and 1 (|||vec{u}|| = sqrt{u_1^2 + u_2^2})
