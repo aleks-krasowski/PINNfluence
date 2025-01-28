@@ -4,7 +4,7 @@ import deepxde as dde
 import numpy as np
 import torch
 from pathlib import Path
-from burgers_eqn import burgers_equation, ic, bc
+from experiments.burgers_equation.train import burgers_equation, ic, bc
 
 import sys
 
