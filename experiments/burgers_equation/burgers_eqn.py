@@ -1,5 +1,4 @@
 import argparse
-from gc import callbacks
 from pathlib import Path
 
 import deepxde as dde
@@ -7,11 +6,9 @@ import numpy as np
 
 import sys
 
-from torch.backends.mkl import verbose
 
 sys.path.append("../..")
 
-from _utils.models import ScaledFNN
 from _utils.utils import StopOnBrokenLBFGS, set_default_device
 
 from deepxde.callbacks import Callback
