@@ -1,4 +1,5 @@
 import argparse
+from gc import callbacks
 from pathlib import Path
 
 import deepxde as dde
@@ -6,17 +7,83 @@ import numpy as np
 
 import sys
 
+from torch.backends.mkl import verbose
+
 sys.path.append("../..")
 
 from _utils.models import ScaledFNN
 from _utils.utils import StopOnBrokenLBFGS, set_default_device
+
+from deepxde.callbacks import Callback
+import torch
+
+
+class BestModelCheckpoint(Callback):
+    """Save the PyTorch model after every epoch, with the annoying appending of DeepXDE.
+
+    Args:
+        filepath (str): Path to save the model file.
+        verbose (int): Verbosity mode, 0 or 1.
+        save_better_only (bool): If True, only saves the model if the monitored
+            metric improves.
+        monitor (str): The metric to monitor ('train_loss' or 'val_loss').
+        min_delta (float): Minimum change to qualify as an improvement.
+    """
+
+    def __init__(
+            self, filepath, verbose=0, save_better_only=False, monitor="train loss", min_delta=0.0
+    ):
+        super().__init__()
+        self.filepath = filepath
+        self.verbose = verbose
+        self.save_better_only = save_better_only
+        self.monitor = monitor
+        self.min_delta = min_delta
+        self.best = np.inf
+
+    def on_epoch_end(self):
+        """Save the model at the end of an epoch."""
+        current = self.get_monitor_value()
+        epoch = self.model.train_state.epoch
+
+        if current is None:
+            raise ValueError(f"Metric '{self.monitor}' is not available in logs.")
+
+        if self.save_better_only:
+            if current < self.best - self.min_delta:
+                self.best = current
+                self._save_model(epoch, current)
+        else:
+            self._save_model(epoch, current)
+
+    def _save_model(self, epoch, current):
+        """Save the model to the specified filepath."""
+        if self.verbose > 0:
+            print(f"Epoch {epoch}: {self.monitor} improved to {current:.4f}, saving model to {self.filepath}")
+
+        checkpoint = {
+            "epoch": epoch,
+            "model_state_dict": self.model.net.state_dict(),
+            "optimizer_state_dict": self.model.opt.state_dict(),
+        }
+        torch.save(checkpoint, self.filepath)
+
+    def get_monitor_value(self):
+        if self.monitor == "train loss":
+            result = sum(self.model.train_state.loss_train)
+        elif self.monitor == "test loss":
+            result = sum(self.model.train_state.loss_test)
+        else:
+            raise ValueError("The specified monitor function is incorrect.")
+
+        return result
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Burgers Equations Solver")
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--layers', type=int, nargs='+', default=[2] + [20] * 3 + [1], help='Layer sizes')
-    parser.add_argument('--n_iterations', type=int, default=50_000, help='Number of iterations')
+    parser.add_argument('--n_iterations', type=int, default=100_000, help='Number of iterations')
     parser.add_argument('--n_iterations_lbfgs', type=int, default=12_500, help='Number of iterations')
     parser.add_argument('--num_domain', type=int, default=2540, help='Number of domain points')
     parser.add_argument('--num_boundary', type=int, default=80, help='Number of boundary points')
@@ -53,7 +120,7 @@ geomtime = dde.geometry.GeometryXTime(geom, timedomain)
 # define the boundary and initial conditions
 bc = dde.icbc.DirichletBC(geomtime, lambda x: 0, lambda _, on_boundary: on_boundary)
 ic = dde.icbc.IC(
-    geomtime, lambda x: -dde.backend.torch.sin(dde.backend.torch.pi * x[:, 0:1]), lambda _, on_initial: on_initial
+    geomtime, lambda x: -np.sin(dde.backend.torch.pi * x[:, 0:1]), lambda _, on_initial: on_initial
 )
 
 
@@ -86,23 +153,29 @@ def main(args):
         num_test=int(1 / 4 * num_domain),
     )
 
-    net = dde.nn.FNN(args.layers, "tanh", "Glorot normal")
+    net = dde.nn.FNN(layers, "tanh", "Glorot normal")
     model = dde.Model(data, net)
 
     model.compile("adam", lr=lr)
-    model.train(
+    losshistory, train_state = model.train(
         iterations=n_iter,
         display_every=1000,
+        callbacks=[BestModelCheckpoint(f"{save_path}/adam_best.pt", verbose=1, save_better_only=True)],
     )
+
+    dde.saveplot(losshistory, train_state, issave=True, isplot=True)
 
     model.save(f"{save_path}/adam")
 
-    stop_on_broken = StopOnBrokenLBFGS()
     dde.optimizers.config.set_LBFGS_options(
         maxiter=n_iter_lbfgs,
     )
     model.compile("L-BFGS")
-    model.train(display_every=1, callbacks=[stop_on_broken])
+    losshistory, train_state = model.train(display_every=1,
+                                           callbacks=[BestModelCheckpoint(f"{save_path}/lbfgs_best.pt", verbose=1,
+                                                                          save_better_only=True)])
+
+    dde.saveplot(losshistory, train_state, issave=True, isplot=True)
 
     model.save(f"{save_path}/lbfgs")
     np.save(f"{save_path}/train_x", data.train_x_all)
