@@ -53,3 +53,15 @@ def set_default_device(device: str = "cpu"):
     else:
         print("Invalid device. Using CPU")
         torch.set_default_device("cpu")
+
+
+def get_checkpoint_file(path: str, prefix: str = "adam"):
+    """
+    Get the latest checkpoint file from a given directory.
+    """
+    files = os.listdir(path)
+    files = [f for f in files if f.startswith(prefix)]
+    files = [f for f in files if f.endswith(".pt")]
+    files = sorted(files)
+    return os.path.join(path, files[-1])
+
