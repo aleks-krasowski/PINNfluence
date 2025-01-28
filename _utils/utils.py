@@ -1,6 +1,11 @@
+import captum
 import deepxde as dde
 import os
+import time
 import torch
+
+from .dataset import DummyDataset
+from .models import PINNLoss, ModelWrapper
 
 
 class StopOnBrokenLBFGS(dde.callbacks.Callback):
@@ -65,3 +70,109 @@ def get_checkpoint_file(path: str, prefix: str = "adam"):
     files = sorted(files)
     return os.path.join(path, files[-1])
 
+
+def sample_new_training_points_via_IF(
+    net: torch.nn.Module,
+    data: dde.data.PDE,
+    fraction_of_train: float = 5,
+    batch_size: int = None,
+    show_progress: bool = False,
+    seed: int = 42,
+):
+    """ "
+    Calculate influence scores for a given model and dataset.
+    Test set is sampled as a fraction of training data from the same distribution
+    (hovever not from the training set itself).
+
+    Oversample new training points to have something to choose from
+    """
+
+    # use original training set
+    train_x = data.train_x_all
+    # wrap in torch dataset for DataLoader
+    # return zeroes produces a dummy target tensor
+    # as inside the influence function loss evaluated using
+    # y_pred - y_true (where y_true is zero)
+    trainset = DummyDataset(train_x, return_zeroes=True)
+
+    pde_net = ModelWrapper(
+        net=net,
+        pde=data.pde,
+        bcs=data.bcs,
+    )
+
+    if batch_size is None:
+        batch_size = len(trainset)
+
+    print("Approximating hessian")
+    start = time.time()
+    # approximate "Hessian" using training set
+    if_instance = captum.influence.ArnoldiInfluenceFunction(
+        pde_net,
+        train_dataset=trainset,
+        loss_fn=PINNLoss(),
+        show_progress=show_progress,
+        checkpoint="dummy",
+        checkpoints_load_func=lambda x, y: 0,  # net assumed to be loaded
+        batch_size=batch_size,
+        seed=seed,
+    )
+    end = time.time()
+    print(f"Approximation took: {end - start}")
+
+    dde.config.set_random_seed(seed)
+    oversampled_data = None
+    if isinstance(data, dde.data.TimePDE):
+        oversampled_data = dde.data.TimePDE(
+            geometryxtime=data.geom,
+            pde=data.pde,
+            ic_bcs=data.bcs,
+            num_domain=data.num_domain * fraction_of_train,
+            num_boundary=data.num_boundary * fraction_of_train,
+            num_initial=data.num_initial * fraction_of_train,
+            train_distribution=data.train_distribution,
+        )
+    elif isinstance(data, dde.data.PDE):
+        oversampled_data = dde.data.PDE(
+            geometry=data.geom,
+            pde=data.pde,
+            bcs=data.bcs,
+            num_domain=data.num_domain * fraction_of_train,
+            num_boundary=data.num_boundary * fraction_of_train,
+            train_distribution=data.train_distribution,
+        )
+    else:
+        raise NotImplementedError("Only PDE and TimePDE supported.")
+
+    # again wrap into torch dataset
+    new_trainset = DummyDataset(oversampled_data.train_x_all, return_zeroes=True)
+    new_trainloader = torch.utils.data.DataLoader(
+        new_trainset,
+        batch_size=min(batch_size, len(new_trainset)),
+    )
+
+    # DAS WAR RECHTS
+    trainloader = if_instance.train_dataloader
+
+    # DIE NEUE RECHTE lol
+    if_instance.train_dataloader = new_trainloader
+    # ziemlich sicher wird der hier nicht mehr angefasst nachdem R ein mal berechnet wurde (womit H approximiert wird)
+    # aber sicher ist sicher
+    if_instance.hessian_dataloader = new_trainloader
+
+    # absolut unnötig weil if not test -> model_test und loss_fn von train benutzt werden
+    # und das sind die gleichen
+    if_instance.model_test = pde_net
+    if_instance.test_loss_fn = PINNLoss()
+
+    # TODO: links - random gesampelte TEST punkte nicht original training AUCH BOUNDARY
+    # TODO: rechts - boundary nicer samplen
+
+    # HIER KOMMT TEST HIN - DAS LINKS☭
+    print("Calculating influences")
+    start = time.time()
+    influences = if_instance.influence(trainloader, show_progress=show_progress)
+    end = time.time()
+    print(f"Influence calculation took: {end - start}")
+
+    return influences, oversampled_data.train_x_all, data.train_x_all
