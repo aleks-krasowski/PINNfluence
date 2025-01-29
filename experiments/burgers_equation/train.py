@@ -12,7 +12,7 @@ import sys
 sys.path.append(os.path.dirname(__file__) + "/../..")
 
 from _utils.utils import StopOnBrokenLBFGS, set_default_device
-
+from callbacks import BestModelCheckpoint
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Burgers Equations Solver")
@@ -141,6 +141,7 @@ def main(args):
     model.train(
         iterations=n_iter,
         display_every=1000,
+        callbacks=[BestModelCheckpoint(f"{save_path}/adam_best.pt", verbose=1, save_better_only=True)],
     )
 
     model.save(f"{save_path}/adam")
@@ -172,6 +173,7 @@ def main(args):
     model.train(
         iterations=10_000,
         display_every=1000,
+        callbacks=[BestModelCheckpoint(f"{save_path}/best_finedtuned_random.pt", verbose=1, save_better_only=True)],
     )
     model.save(f"{save_path}/finedtuned_random")
 
