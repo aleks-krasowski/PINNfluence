@@ -144,8 +144,6 @@ def main(args):
         callbacks=[BestModelCheckpoint(f"{save_path}/adam_best.pt", verbose=1, save_better_only=True)],
     )
 
-    model.save(f"{save_path}/adam")
-
     # stop_on_broken = StopOnBrokenLBFGS()
     # dde.optimizers.config.set_LBFGS_options(
     #     maxiter=n_iter_lbfgs,
@@ -173,9 +171,9 @@ def main(args):
     model.train(
         iterations=10_000,
         display_every=1000,
-        callbacks=[BestModelCheckpoint(f"{save_path}/best_finedtuned_random.pt", verbose=1, save_better_only=True)],
+        callbacks=[BestModelCheckpoint(f"{save_path}/finedtuned_random_best.pt", verbose=1, save_better_only=True)],
     )
-    model.save(f"{save_path}/finedtuned_random")
+    # model.save(f"{save_path}/finedtuned_random_final")
 
 
 if __name__ == "__main__":
