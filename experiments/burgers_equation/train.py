@@ -1,3 +1,5 @@
+import pickle
+
 from defaults import DEFAULTS
 
 import argparse
@@ -13,6 +15,7 @@ sys.path.append(os.path.dirname(__file__) + "/../..")
 
 from _utils.utils import StopOnBrokenLBFGS, set_default_device
 from callbacks import BestModelCheckpoint
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Burgers Equations Solver")
@@ -161,19 +164,9 @@ def main(args):
     # print("L2 relative error:", dde.metrics.l2_relative_error(y_true, y_pred))
     # np.savetxt("test.dat", np.hstack((X, y_true, y_pred)))
 
-    old_train = data.train_x_all
-
-    data.resample_train_points()
-    assert np.not_equal(
-        data.train_x_all, old_train
-    ).any(), "Resampling failed. Data is the same."
-
-    model.train(
-        iterations=10_000,
-        display_every=1000,
-        callbacks=[BestModelCheckpoint(f"{save_path}/finedtuned_random_best.pt", verbose=1, save_better_only=True)],
-    )
-    # model.save(f"{save_path}/finedtuned_random_final")
+    # save data.train_x_all
+    np.savez_compressed(save_path / "data_points.npz", train_x=data.train_x, train_x_all=data.train_x_all,
+                        train_x_bc=data.train_x_bc, test_x=data.test_x,)
 
 
 if __name__ == "__main__":
