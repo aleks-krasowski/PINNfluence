@@ -82,6 +82,9 @@ def sample_new_training_points_via_IF(
     batch_size: int = None,
     show_progress: bool = False,
     seed: int = None,
+    num_domain: int = None,
+    num_boundary: int = None,
+    num_initial: int = None,
 ):
     """ "
     Calculate influence scores for a given model and dataset.
@@ -90,6 +93,13 @@ def sample_new_training_points_via_IF(
 
     Oversample new training points to have something to choose from
     """
+
+    if num_domain is None:
+        num_domain = int(data.num_domain * fraction_of_train)
+    if num_boundary is None:
+        num_boundary = int(data.num_boundary * fraction_of_train)
+    if num_initial is None:
+        num_initial = int(data.num_initial * fraction_of_train)
 
     # use original training set
     train_x = data.train_x_all
@@ -132,9 +142,9 @@ def sample_new_training_points_via_IF(
             geometryxtime=data.geom,
             pde=data.pde,
             ic_bcs=data.bcs,
-            num_domain=data.num_domain * fraction_of_train,
-            num_boundary=data.num_boundary * fraction_of_train,
-            num_initial=data.num_initial * fraction_of_train,
+            num_domain=num_domain,
+            num_boundary=num_boundary,
+            num_initial=num_initial,
             train_distribution=data.train_distribution,
         )
     elif isinstance(data, dde.data.PDE):
@@ -142,8 +152,8 @@ def sample_new_training_points_via_IF(
             geometry=data.geom,
             pde=data.pde,
             bcs=data.bcs,
-            num_domain=data.num_domain * fraction_of_train,
-            num_boundary=data.num_boundary * fraction_of_train,
+            num_domain=num_domain,
+            num_boundary=num_boundary,
             train_distribution=data.train_distribution,
         )
     else:
