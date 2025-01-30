@@ -68,6 +68,10 @@ def get_checkpoint_file(path: str, prefix: str = "adam"):
     files = [f for f in files if f.startswith(prefix)]
     files = [f for f in files if f.endswith(".pt")]
     files = sorted(files)
+
+    if len(files) == 0:
+        return None
+
     return os.path.join(path, files[-1])
 
 
