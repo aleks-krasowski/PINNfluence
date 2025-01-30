@@ -81,7 +81,7 @@ def sample_new_training_points_via_IF(
     fraction_of_train: float = 5,
     batch_size: int = None,
     show_progress: bool = False,
-    seed: int = 42,
+    seed: int = None,
 ):
     """ "
     Calculate influence scores for a given model and dataset.
@@ -119,12 +119,13 @@ def sample_new_training_points_via_IF(
         checkpoint="dummy",
         checkpoints_load_func=lambda x, y: 0,  # net assumed to be loaded
         batch_size=batch_size,
-        seed=seed,
     )
     end = time.time()
     print(f"Approximation took: {end - start}")
 
-    dde.config.set_random_seed(seed)
+    if seed is not None:
+        dde.config.set_random_seed(seed)
+
     oversampled_data = None
     if isinstance(data, dde.data.TimePDE):
         oversampled_data = dde.data.TimePDE(
