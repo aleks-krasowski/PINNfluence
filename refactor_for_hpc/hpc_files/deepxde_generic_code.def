@@ -1,0 +1,14 @@
+Bootstrap: docker
+From: pescapil/deepxde:latest
+
+%environment
+    export DDE_BACKEND=pytorch
+
+%post
+    pip install deepxde --upgrade
+    pip install git+https://github.com/aleks-krasowski/captum.git
+    pip install natsort
+
+%runscript
+    cd /opt/code
+    python "$@"
