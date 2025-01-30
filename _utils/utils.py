@@ -180,4 +180,4 @@ def sample_new_training_points_via_IF(
     end = time.time()
     print(f"Influence calculation took: {end - start}")
 
-    return influences, oversampled_data.train_x_all, data.train_x_all
+    return influences.numpy(), oversampled_data.train_x_all, data.train_x_all
