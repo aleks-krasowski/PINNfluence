@@ -15,7 +15,12 @@ class BestModelCheckpoint(Callback):
     """
 
     def __init__(
-            self, filepath, verbose=0, save_better_only=False, monitor="train loss", min_delta=0.0
+        self,
+        filepath,
+        verbose=0,
+        save_better_only=False,
+        monitor="test loss",
+        min_delta=0.0,
     ):
         super().__init__()
         self.filepath = filepath
@@ -24,6 +29,10 @@ class BestModelCheckpoint(Callback):
         self.monitor = monitor
         self.min_delta = min_delta
         self.best = torch.inf
+
+    def on_train_begin(self):
+        self.best = self.get_monitor_value()
+        self._save_model(0, self.best)
 
     def on_epoch_end(self):
         """Save the model at the end of an epoch."""
@@ -43,7 +52,9 @@ class BestModelCheckpoint(Callback):
     def _save_model(self, epoch, current):
         """Save the model to the specified filepath."""
         if self.verbose > 0:
-            print(f"Epoch {epoch}: {self.monitor} improved to {current:.2e}, saving model to {self.filepath}")
+            print(
+                f"Epoch {epoch}: {self.monitor} improved to {current:.2e}, saving model to {self.filepath}"
+            )
 
         checkpoint = {
             "epoch": epoch,
