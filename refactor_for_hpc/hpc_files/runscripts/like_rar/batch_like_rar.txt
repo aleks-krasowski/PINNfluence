@@ -1,0 +1,150 @@
+--method IF --seed 0 
+--method IF --seed 1
+--method IF --seed 2
+--method IF --seed 3
+--method IF --seed 4
+--method IF --n_iterations 10_000 --seed 0
+--method IF --n_iterations 10_000 --seed 1
+--method IF --n_iterations 10_000 --seed 2
+--method IF --n_iterations 10_000 --seed 3
+--method IF --n_iterations 10_000 --seed 4
+--method IF --hard_constrained --seed 0 
+--method IF --hard_constrained --seed 1
+--method IF --hard_constrained --seed 2
+--method IF --hard_constrained --seed 3
+--method IF --hard_constrained --seed 4
+--method IF --hard_constrained --n_iterations 10_000 --seed 0
+--method IF --hard_constrained --n_iterations 10_000 --seed 1
+--method IF --hard_constrained --n_iterations 10_000 --seed 2
+--method IF --hard_constrained --n_iterations 10_000 --seed 3
+--method IF --hard_constrained --n_iterations 10_000 --seed 4
+--method random --seed 0 
+--method random --seed 1
+--method random --seed 2
+--method random --seed 3
+--method random --seed 4
+--method random --n_iterations 10_000 --seed 0
+--method random --n_iterations 10_000 --seed 1
+--method random --n_iterations 10_000 --seed 2
+--method random --n_iterations 10_000 --seed 3
+--method random --n_iterations 10_000 --seed 4
+--method random --hard_constrained --seed 0 
+--method random --hard_constrained --seed 1
+--method random --hard_constrained --seed 2
+--method random --hard_constrained --seed 3
+--method random --hard_constrained --seed 4
+--method random --hard_constrained --n_iterations 10_000 --seed 0
+--method random --hard_constrained --n_iterations 10_000 --seed 1
+--method random --hard_constrained --n_iterations 10_000 --seed 2
+--method random --hard_constrained --n_iterations 10_000 --seed 3
+--method random --hard_constrained --n_iterations 10_000 --seed 4
+--method RAR --seed 0 
+--method RAR --seed 1
+--method RAR --seed 2
+--method RAR --seed 3
+--method RAR --seed 4
+--method RAR --n_iterations 10_000 --seed 0
+--method RAR --n_iterations 10_000 --seed 1
+--method RAR --n_iterations 10_000 --seed 2
+--method RAR --n_iterations 10_000 --seed 3
+--method RAR --n_iterations 10_000 --seed 4
+--method RAR --hard_constrained --seed 0 
+--method RAR --hard_constrained --seed 1
+--method RAR --hard_constrained --seed 2
+--method RAR --hard_constrained --seed 3
+--method RAR --hard_constrained --seed 4
+--method RAR --hard_constrained --n_iterations 10_000 --seed 0
+--method RAR --hard_constrained --n_iterations 10_000 --seed 1
+--method RAR --hard_constrained --n_iterations 10_000 --seed 2
+--method RAR --hard_constrained --n_iterations 10_000 --seed 3
+--method RAR --hard_constrained --n_iterations 10_000 --seed 4
+--distribution_based --replace --method IF --hard_constrained --seed 0 
+--distribution_based --replace --method IF --hard_constrained --seed 1
+--distribution_based --replace --method IF --hard_constrained --seed 2
+--distribution_based --replace --method IF --hard_constrained --seed 3
+--distribution_based --replace --method IF --hard_constrained --seed 4
+--distribution_based --replace --method IF --hard_constrained --n_iterations 10_000 --seed 0
+--distribution_based --replace --method IF --hard_constrained --n_iterations 10_000 --seed 1
+--distribution_based --replace --method IF --hard_constrained --n_iterations 10_000 --seed 2
+--distribution_based --replace --method IF --hard_constrained --n_iterations 10_000 --seed 3
+--distribution_based --replace --method IF --hard_constrained --n_iterations 10_000 --seed 4
+--distribution_based --replace --method random --hard_constrained --seed 0 
+--distribution_based --replace --method random --hard_constrained --seed 1
+--distribution_based --replace --method random --hard_constrained --seed 2
+--distribution_based --replace --method random --hard_constrained --seed 3
+--distribution_based --replace --method random --hard_constrained --seed 4
+--distribution_based --replace --method random --hard_constrained --n_iterations 10_000 --seed 0
+--distribution_based --replace --method random --hard_constrained --n_iterations 10_000 --seed 1
+--distribution_based --replace --method random --hard_constrained --n_iterations 10_000 --seed 2
+--distribution_based --replace --method random --hard_constrained --n_iterations 10_000 --seed 3
+--distribution_based --replace --method random --hard_constrained --n_iterations 10_000 --seed 4
+--distribution_based --replace --method RAR --hard_constrained --seed 0 
+--distribution_based --replace --method RAR --hard_constrained --seed 1
+--distribution_based --replace --method RAR --hard_constrained --seed 2
+--distribution_based --replace --method RAR --hard_constrained --seed 3
+--distribution_based --replace --method RAR --hard_constrained --seed 4
+--distribution_based --replace --method RAR --hard_constrained --n_iterations 10_000 --seed 0
+--distribution_based --replace --method RAR --hard_constrained --n_iterations 10_000 --seed 1
+--distribution_based --replace --method RAR --hard_constrained --n_iterations 10_000 --seed 2
+--distribution_based --replace --method RAR --hard_constrained --n_iterations 10_000 --seed 3
+--distribution_based --replace --method RAR --hard_constrained --n_iterations 10_000 --seed 4
+--distribution_based --method IF --seed 0 
+--distribution_based --method IF --seed 1
+--distribution_based --method IF --seed 2
+--distribution_based --method IF --seed 3
+--distribution_based --method IF --seed 4
+--distribution_based --method IF --n_iterations 10_000 --seed 0
+--distribution_based --method IF --n_iterations 10_000 --seed 1
+--distribution_based --method IF --n_iterations 10_000 --seed 2
+--distribution_based --method IF --n_iterations 10_000 --seed 3
+--distribution_based --method IF --n_iterations 10_000 --seed 4
+--distribution_based --method IF --hard_constrained --seed 0 
+--distribution_based --method IF --hard_constrained --seed 1
+--distribution_based --method IF --hard_constrained --seed 2
+--distribution_based --method IF --hard_constrained --seed 3
+--distribution_based --method IF --hard_constrained --seed 4
+--distribution_based --method IF --hard_constrained --n_iterations 10_000 --seed 0
+--distribution_based --method IF --hard_constrained --n_iterations 10_000 --seed 1
+--distribution_based --method IF --hard_constrained --n_iterations 10_000 --seed 2
+--distribution_based --method IF --hard_constrained --n_iterations 10_000 --seed 3
+--distribution_based --method IF --hard_constrained --n_iterations 10_000 --seed 4
+--distribution_based --method random --seed 0 
+--distribution_based --method random --seed 1
+--distribution_based --method random --seed 2
+--distribution_based --method random --seed 3
+--distribution_based --method random --seed 4
+--distribution_based --method random --n_iterations 10_000 --seed 0
+--distribution_based --method random --n_iterations 10_000 --seed 1
+--distribution_based --method random --n_iterations 10_000 --seed 2
+--distribution_based --method random --n_iterations 10_000 --seed 3
+--distribution_based --method random --n_iterations 10_000 --seed 4
+--distribution_based --method random --hard_constrained --seed 0 
+--distribution_based --method random --hard_constrained --seed 1
+--distribution_based --method random --hard_constrained --seed 2
+--distribution_based --method random --hard_constrained --seed 3
+--distribution_based --method random --hard_constrained --seed 4
+--distribution_based --method random --hard_constrained --n_iterations 10_000 --seed 0
+--distribution_based --method random --hard_constrained --n_iterations 10_000 --seed 1
+--distribution_based --method random --hard_constrained --n_iterations 10_000 --seed 2
+--distribution_based --method random --hard_constrained --n_iterations 10_000 --seed 3
+--distribution_based --method random --hard_constrained --n_iterations 10_000 --seed 4
+--distribution_based --method RAR --seed 0 
+--distribution_based --method RAR --seed 1
+--distribution_based --method RAR --seed 2
+--distribution_based --method RAR --seed 3
+--distribution_based --method RAR --seed 4
+--distribution_based --method RAR --n_iterations 10_000 --seed 0
+--distribution_based --method RAR --n_iterations 10_000 --seed 1
+--distribution_based --method RAR --n_iterations 10_000 --seed 2
+--distribution_based --method RAR --n_iterations 10_000 --seed 3
+--distribution_based --method RAR --n_iterations 10_000 --seed 4
+--distribution_based --method RAR --hard_constrained --seed 0 
+--distribution_based --method RAR --hard_constrained --seed 1
+--distribution_based --method RAR --hard_constrained --seed 2
+--distribution_based --method RAR --hard_constrained --seed 3
+--distribution_based --method RAR --hard_constrained --seed 4
+--distribution_based --method RAR --hard_constrained --n_iterations 10_000 --seed 0
+--distribution_based --method RAR --hard_constrained --n_iterations 10_000 --seed 1
+--distribution_based --method RAR --hard_constrained --n_iterations 10_000 --seed 2
+--distribution_based --method RAR --hard_constrained --n_iterations 10_000 --seed 3
+--distribution_based --method RAR --hard_constrained --n_iterations 10_000 --seed 4
