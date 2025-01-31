@@ -1,13 +1,14 @@
 Bootstrap: docker
-From: pescapil/deepxde:latest
+From: python:3.12.8
 
 %environment
     export DDE_BACKEND=pytorch
 
 %post
-    pip install deepxde --upgrade
+    pip install torch --index-url https://download.pytorch.org/whl/cpu --upgrade
+    pip install git+https://github.com/aleks-krasowski/deepxde.git
     pip install git+https://github.com/aleks-krasowski/captum.git
-    pip install natsort
+    pip install natsort pandas
 
 %runscript
     cd /opt/code
