@@ -1,0 +1,620 @@
+--ratio 0.0 --method control --n_iterations 10000 --seed 0
+--ratio 0.0 --method control --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.0 --method control --n_iterations 10000 --seed 1
+--ratio 0.0 --method control --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.0 --method control --n_iterations 10000 --seed 2
+--ratio 0.0 --method control --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.0 --method control --n_iterations 10000 --seed 3
+--ratio 0.0 --method control --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.0 --method control --n_iterations 10000 --seed 4
+--ratio 0.0 --method control --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.0 --method control --n_iterations 50000 --seed 0
+--ratio 0.0 --method control --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.0 --method control --n_iterations 50000 --seed 1
+--ratio 0.0 --method control --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.0 --method control --n_iterations 50000 --seed 2
+--ratio 0.0 --method control --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.0 --method control --n_iterations 50000 --seed 3
+--ratio 0.0 --method control --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.0 --method control --n_iterations 50000 --seed 4
+--ratio 0.0 --method control --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.01 --method random --n_iterations 10000 --seed 0
+--ratio 0.01 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.01 --method random --n_iterations 10000 --seed 1
+--ratio 0.01 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.01 --method random --n_iterations 10000 --seed 2
+--ratio 0.01 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.01 --method random --n_iterations 10000 --seed 3
+--ratio 0.01 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.01 --method random --n_iterations 10000 --seed 4
+--ratio 0.01 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 10000 --seed 0
+--ratio 0.01 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 10000 --seed 1
+--ratio 0.01 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 10000 --seed 2
+--ratio 0.01 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 10000 --seed 3
+--ratio 0.01 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 10000 --seed 4
+--ratio 0.01 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.01 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.01 --method random --n_iterations 50000 --seed 0
+--ratio 0.01 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.01 --method random --n_iterations 50000 --seed 1
+--ratio 0.01 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.01 --method random --n_iterations 50000 --seed 2
+--ratio 0.01 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.01 --method random --n_iterations 50000 --seed 3
+--ratio 0.01 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.01 --method random --n_iterations 50000 --seed 4
+--ratio 0.01 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 50000 --seed 0
+--ratio 0.01 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 50000 --seed 1
+--ratio 0.01 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 50000 --seed 2
+--ratio 0.01 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 50000 --seed 3
+--ratio 0.01 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.01 --method IF --n_iterations 50000 --seed 4
+--ratio 0.01 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.01 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.02 --method random --n_iterations 10000 --seed 0
+--ratio 0.02 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.02 --method random --n_iterations 10000 --seed 1
+--ratio 0.02 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.02 --method random --n_iterations 10000 --seed 2
+--ratio 0.02 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.02 --method random --n_iterations 10000 --seed 3
+--ratio 0.02 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.02 --method random --n_iterations 10000 --seed 4
+--ratio 0.02 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 10000 --seed 0
+--ratio 0.02 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 10000 --seed 1
+--ratio 0.02 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 10000 --seed 2
+--ratio 0.02 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 10000 --seed 3
+--ratio 0.02 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 10000 --seed 4
+--ratio 0.02 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.02 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.02 --method random --n_iterations 50000 --seed 0
+--ratio 0.02 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.02 --method random --n_iterations 50000 --seed 1
+--ratio 0.02 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.02 --method random --n_iterations 50000 --seed 2
+--ratio 0.02 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.02 --method random --n_iterations 50000 --seed 3
+--ratio 0.02 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.02 --method random --n_iterations 50000 --seed 4
+--ratio 0.02 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 50000 --seed 0
+--ratio 0.02 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 50000 --seed 1
+--ratio 0.02 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 50000 --seed 2
+--ratio 0.02 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 50000 --seed 3
+--ratio 0.02 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.02 --method IF --n_iterations 50000 --seed 4
+--ratio 0.02 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.02 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.03 --method random --n_iterations 10000 --seed 0
+--ratio 0.03 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.03 --method random --n_iterations 10000 --seed 1
+--ratio 0.03 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.03 --method random --n_iterations 10000 --seed 2
+--ratio 0.03 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.03 --method random --n_iterations 10000 --seed 3
+--ratio 0.03 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.03 --method random --n_iterations 10000 --seed 4
+--ratio 0.03 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 10000 --seed 0
+--ratio 0.03 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 10000 --seed 1
+--ratio 0.03 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 10000 --seed 2
+--ratio 0.03 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 10000 --seed 3
+--ratio 0.03 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 10000 --seed 4
+--ratio 0.03 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.03 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.03 --method random --n_iterations 50000 --seed 0
+--ratio 0.03 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.03 --method random --n_iterations 50000 --seed 1
+--ratio 0.03 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.03 --method random --n_iterations 50000 --seed 2
+--ratio 0.03 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.03 --method random --n_iterations 50000 --seed 3
+--ratio 0.03 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.03 --method random --n_iterations 50000 --seed 4
+--ratio 0.03 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 50000 --seed 0
+--ratio 0.03 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 50000 --seed 1
+--ratio 0.03 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 50000 --seed 2
+--ratio 0.03 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 50000 --seed 3
+--ratio 0.03 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.03 --method IF --n_iterations 50000 --seed 4
+--ratio 0.03 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.03 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.04 --method random --n_iterations 10000 --seed 0
+--ratio 0.04 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.04 --method random --n_iterations 10000 --seed 1
+--ratio 0.04 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.04 --method random --n_iterations 10000 --seed 2
+--ratio 0.04 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.04 --method random --n_iterations 10000 --seed 3
+--ratio 0.04 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.04 --method random --n_iterations 10000 --seed 4
+--ratio 0.04 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 10000 --seed 0
+--ratio 0.04 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 10000 --seed 1
+--ratio 0.04 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 10000 --seed 2
+--ratio 0.04 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 10000 --seed 3
+--ratio 0.04 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 10000 --seed 4
+--ratio 0.04 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.04 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.04 --method random --n_iterations 50000 --seed 0
+--ratio 0.04 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.04 --method random --n_iterations 50000 --seed 1
+--ratio 0.04 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.04 --method random --n_iterations 50000 --seed 2
+--ratio 0.04 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.04 --method random --n_iterations 50000 --seed 3
+--ratio 0.04 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.04 --method random --n_iterations 50000 --seed 4
+--ratio 0.04 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 50000 --seed 0
+--ratio 0.04 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 50000 --seed 1
+--ratio 0.04 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 50000 --seed 2
+--ratio 0.04 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 50000 --seed 3
+--ratio 0.04 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.04 --method IF --n_iterations 50000 --seed 4
+--ratio 0.04 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.04 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.05 --method random --n_iterations 10000 --seed 0
+--ratio 0.05 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.05 --method random --n_iterations 10000 --seed 1
+--ratio 0.05 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.05 --method random --n_iterations 10000 --seed 2
+--ratio 0.05 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.05 --method random --n_iterations 10000 --seed 3
+--ratio 0.05 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.05 --method random --n_iterations 10000 --seed 4
+--ratio 0.05 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 10000 --seed 0
+--ratio 0.05 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 10000 --seed 1
+--ratio 0.05 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 10000 --seed 2
+--ratio 0.05 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 10000 --seed 3
+--ratio 0.05 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 10000 --seed 4
+--ratio 0.05 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.05 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.05 --method random --n_iterations 50000 --seed 0
+--ratio 0.05 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.05 --method random --n_iterations 50000 --seed 1
+--ratio 0.05 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.05 --method random --n_iterations 50000 --seed 2
+--ratio 0.05 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.05 --method random --n_iterations 50000 --seed 3
+--ratio 0.05 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.05 --method random --n_iterations 50000 --seed 4
+--ratio 0.05 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 50000 --seed 0
+--ratio 0.05 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 50000 --seed 1
+--ratio 0.05 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 50000 --seed 2
+--ratio 0.05 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 50000 --seed 3
+--ratio 0.05 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.05 --method IF --n_iterations 50000 --seed 4
+--ratio 0.05 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.05 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.06 --method random --n_iterations 10000 --seed 0
+--ratio 0.06 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.06 --method random --n_iterations 10000 --seed 1
+--ratio 0.06 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.06 --method random --n_iterations 10000 --seed 2
+--ratio 0.06 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.06 --method random --n_iterations 10000 --seed 3
+--ratio 0.06 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.06 --method random --n_iterations 10000 --seed 4
+--ratio 0.06 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 10000 --seed 0
+--ratio 0.06 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 10000 --seed 1
+--ratio 0.06 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 10000 --seed 2
+--ratio 0.06 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 10000 --seed 3
+--ratio 0.06 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 10000 --seed 4
+--ratio 0.06 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.06 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.06 --method random --n_iterations 50000 --seed 0
+--ratio 0.06 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.06 --method random --n_iterations 50000 --seed 1
+--ratio 0.06 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.06 --method random --n_iterations 50000 --seed 2
+--ratio 0.06 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.06 --method random --n_iterations 50000 --seed 3
+--ratio 0.06 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.06 --method random --n_iterations 50000 --seed 4
+--ratio 0.06 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 50000 --seed 0
+--ratio 0.06 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 50000 --seed 1
+--ratio 0.06 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 50000 --seed 2
+--ratio 0.06 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 50000 --seed 3
+--ratio 0.06 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.06 --method IF --n_iterations 50000 --seed 4
+--ratio 0.06 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.06 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.07 --method random --n_iterations 10000 --seed 0
+--ratio 0.07 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.07 --method random --n_iterations 10000 --seed 1
+--ratio 0.07 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.07 --method random --n_iterations 10000 --seed 2
+--ratio 0.07 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.07 --method random --n_iterations 10000 --seed 3
+--ratio 0.07 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.07 --method random --n_iterations 10000 --seed 4
+--ratio 0.07 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 10000 --seed 0
+--ratio 0.07 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 10000 --seed 1
+--ratio 0.07 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 10000 --seed 2
+--ratio 0.07 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 10000 --seed 3
+--ratio 0.07 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 10000 --seed 4
+--ratio 0.07 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.07 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.07 --method random --n_iterations 50000 --seed 0
+--ratio 0.07 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.07 --method random --n_iterations 50000 --seed 1
+--ratio 0.07 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.07 --method random --n_iterations 50000 --seed 2
+--ratio 0.07 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.07 --method random --n_iterations 50000 --seed 3
+--ratio 0.07 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.07 --method random --n_iterations 50000 --seed 4
+--ratio 0.07 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 50000 --seed 0
+--ratio 0.07 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 50000 --seed 1
+--ratio 0.07 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 50000 --seed 2
+--ratio 0.07 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 50000 --seed 3
+--ratio 0.07 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.07 --method IF --n_iterations 50000 --seed 4
+--ratio 0.07 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.07 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.08 --method random --n_iterations 10000 --seed 0
+--ratio 0.08 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.08 --method random --n_iterations 10000 --seed 1
+--ratio 0.08 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.08 --method random --n_iterations 10000 --seed 2
+--ratio 0.08 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.08 --method random --n_iterations 10000 --seed 3
+--ratio 0.08 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.08 --method random --n_iterations 10000 --seed 4
+--ratio 0.08 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 10000 --seed 0
+--ratio 0.08 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 10000 --seed 1
+--ratio 0.08 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 10000 --seed 2
+--ratio 0.08 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 10000 --seed 3
+--ratio 0.08 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 10000 --seed 4
+--ratio 0.08 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.08 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.08 --method random --n_iterations 50000 --seed 0
+--ratio 0.08 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.08 --method random --n_iterations 50000 --seed 1
+--ratio 0.08 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.08 --method random --n_iterations 50000 --seed 2
+--ratio 0.08 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.08 --method random --n_iterations 50000 --seed 3
+--ratio 0.08 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.08 --method random --n_iterations 50000 --seed 4
+--ratio 0.08 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 50000 --seed 0
+--ratio 0.08 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 50000 --seed 1
+--ratio 0.08 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 50000 --seed 2
+--ratio 0.08 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 50000 --seed 3
+--ratio 0.08 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.08 --method IF --n_iterations 50000 --seed 4
+--ratio 0.08 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.08 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.09 --method random --n_iterations 10000 --seed 0
+--ratio 0.09 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.09 --method random --n_iterations 10000 --seed 1
+--ratio 0.09 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.09 --method random --n_iterations 10000 --seed 2
+--ratio 0.09 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.09 --method random --n_iterations 10000 --seed 3
+--ratio 0.09 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.09 --method random --n_iterations 10000 --seed 4
+--ratio 0.09 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 10000 --seed 0
+--ratio 0.09 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 10000 --seed 1
+--ratio 0.09 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 10000 --seed 2
+--ratio 0.09 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 10000 --seed 3
+--ratio 0.09 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 10000 --seed 4
+--ratio 0.09 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.09 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.09 --method random --n_iterations 50000 --seed 0
+--ratio 0.09 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.09 --method random --n_iterations 50000 --seed 1
+--ratio 0.09 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.09 --method random --n_iterations 50000 --seed 2
+--ratio 0.09 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.09 --method random --n_iterations 50000 --seed 3
+--ratio 0.09 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.09 --method random --n_iterations 50000 --seed 4
+--ratio 0.09 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 50000 --seed 0
+--ratio 0.09 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 50000 --seed 1
+--ratio 0.09 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 50000 --seed 2
+--ratio 0.09 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 50000 --seed 3
+--ratio 0.09 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.09 --method IF --n_iterations 50000 --seed 4
+--ratio 0.09 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.09 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.1 --method random --n_iterations 10000 --seed 0
+--ratio 0.1 --method random --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.1 --method random --n_iterations 10000 --seed 1
+--ratio 0.1 --method random --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.1 --method random --n_iterations 10000 --seed 2
+--ratio 0.1 --method random --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.1 --method random --n_iterations 10000 --seed 3
+--ratio 0.1 --method random --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.1 --method random --n_iterations 10000 --seed 4
+--ratio 0.1 --method random --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 10000 --seed 0
+--ratio 0.1 --method IF --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 10000 --seed 1
+--ratio 0.1 --method IF --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 10000 --seed 2
+--ratio 0.1 --method IF --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 10000 --seed 3
+--ratio 0.1 --method IF --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 10000 --seed 4
+--ratio 0.1 --method IF --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 0
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 0 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 1
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 1 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 2
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 2 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 3
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 3 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 4
+--ratio 0.1 --method RAR --n_iterations 10000 --seed 4 --hard_constrained
+--ratio 0.1 --method random --n_iterations 50000 --seed 0
+--ratio 0.1 --method random --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.1 --method random --n_iterations 50000 --seed 1
+--ratio 0.1 --method random --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.1 --method random --n_iterations 50000 --seed 2
+--ratio 0.1 --method random --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.1 --method random --n_iterations 50000 --seed 3
+--ratio 0.1 --method random --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.1 --method random --n_iterations 50000 --seed 4
+--ratio 0.1 --method random --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 50000 --seed 0
+--ratio 0.1 --method IF --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 50000 --seed 1
+--ratio 0.1 --method IF --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 50000 --seed 2
+--ratio 0.1 --method IF --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 50000 --seed 3
+--ratio 0.1 --method IF --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.1 --method IF --n_iterations 50000 --seed 4
+--ratio 0.1 --method IF --n_iterations 50000 --seed 4 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 0
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 0 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 1
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 1 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 2
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 2 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 3
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 3 --hard_constrained
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 4
+--ratio 0.1 --method RAR --n_iterations 50000 --seed 4 --hard_constrained
