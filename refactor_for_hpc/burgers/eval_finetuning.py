@@ -106,9 +106,9 @@ def eval_model(model, x, y, verbose=True):
     l2_relative_error = dde.metrics.l2_relative_error(y, y_pred)
     mse = dde.metrics.mean_squared_error(y, y_pred)
     if verbose:
-        print("Mean residual:", mean_residual)
-        print("L2 relative error:", l2_relative_error)
-        print("MSE:", mse)
+        print(f"Mean residual: {mean_residual:.2e}")
+        print(f"L2 relative error: {l2_relative_error:.2e}")
+        print(f"MSE: {mse:.2e}")
     return {
         "mean_residual": mean_residual,
         "l2_relative_error": l2_relative_error,
