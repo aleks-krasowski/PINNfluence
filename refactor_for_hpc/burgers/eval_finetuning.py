@@ -73,7 +73,7 @@ def parse_args():
         type=str,
         default="IF",
         help="Method to evaluate",
-        choices=["IF", "random", "RAR"],
+        choices=["IF", "random", "RAR", "control"],
     )
     parser.add_argument(
         "--n_candidate_points",
@@ -175,36 +175,40 @@ def main(args):
     )
     reset_data(data, data_points)
 
-    if method == "IF":
-        # note: this only affects PDE loss for now
-        influence_scores = np.load(
-            f"/opt/model_zoo_src/influence_scores_{n_iterations}_{num_domain}_{num_boundary}_{num_initial}_{seed}_hc_{hard_constrained}.npz"
-        )
-        infl_scores = influence_scores["influence_scores"]
-        candidate_points = influence_scores["candidate_points"]
-        summed_infl_scores = np.abs(infl_scores).sum(axis=0)
-        topk_idx = np.argsort(summed_infl_scores)[int(ratio * len(data.train_x_all)) :]
-        new_anchors = candidate_points[topk_idx]
-        data.add_anchors(new_anchors)
+    if ratio > 0.0:
 
-    elif method == "random":
-        new_anchors = geomtime.random_points(int(ratio * len(data.train_x_all)))
-        data.add_anchors(new_anchors)
+        if method == "IF":
+            # note: this only affects PDE loss for now
+            influence_scores = np.load(
+                f"/opt/model_zoo_src/influence_scores_{n_iterations}_{num_domain}_{num_boundary}_{num_initial}_{seed}_hc_{hard_constrained}.npz"
+            )
+            infl_scores = influence_scores["influence_scores"]
+            candidate_points = influence_scores["candidate_points"]
+            summed_infl_scores = np.abs(infl_scores).sum(axis=0)
+            topk_idx = np.argsort(summed_infl_scores)[
+                int(ratio * len(data.train_x_all)) :
+            ]
+            new_anchors = candidate_points[topk_idx]
+            data.add_anchors(new_anchors)
 
-    elif method == "RAR":
-        model = dde.Model(data, net)
-        model.compile("adam", lr=lr)
+        elif method == "random":
+            new_anchors = geomtime.random_points(int(ratio * len(data.train_x_all)))
+            data.add_anchors(new_anchors)
 
-        candidate_points = geomtime.random_points(n_candidate_points)
-        residual = np.abs(model.predict(candidate_points, operator=burgers_equation))[
-            :, 0
-        ]
-        err_eq = torch.tensor(residual)
-        topk_idx = torch.topk(err_eq, int(ratio * len(data.train_x_all)), dim=0)[
-            1
-        ].numpy()
-        new_anchors = candidate_points[topk_idx]
-        data.add_anchors(new_anchors)
+        elif method == "RAR":
+            model = dde.Model(data, net)
+            model.compile("adam", lr=lr)
+
+            candidate_points = geomtime.random_points(n_candidate_points)
+            residual = np.abs(
+                model.predict(candidate_points, operator=burgers_equation)
+            )[:, 0]
+            err_eq = torch.tensor(residual)
+            topk_idx = torch.topk(err_eq, int(ratio * len(data.train_x_all)), dim=0)[
+                1
+            ].numpy()
+            new_anchors = candidate_points[topk_idx]
+            data.add_anchors(new_anchors)
 
     model = dde.Model(data, net)
     model.compile("adam", lr=lr)
@@ -255,7 +259,7 @@ def main(args):
         df = pd.concat([df, pd.DataFrame([metrics])], ignore_index=True)
 
     df.to_csv(
-        f"{save_path}/metrics_ratio_{ratio:.3f}_{method}_{seed}.csv",
+        f"{save_path}/metrics_ratio_{ratio:.3f}_{method}_{seed}_hc_{hard_constrained}.csv",
         index=False,
     )
 
