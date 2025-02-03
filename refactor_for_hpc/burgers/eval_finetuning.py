@@ -87,6 +87,13 @@ def parse_args():
         default=0.1,
         help="Fraction of training points to add (from sampled ones)",
     )
+    parser.add_argument(
+        "--influence_sign",
+        type=str,
+        default="abs",
+        help="Sign of influence scores",
+        choices=["abs", "pos", "neg"],
+    )
     return parser.parse_args()
 
 
@@ -137,6 +144,7 @@ def main(args):
     n_candidate_points = args.n_candidate_points
     ratio = args.ratio
     method = args.method
+    influence_sign = args.influence_sign
 
     dde.config.set_random_seed(seed)
 
@@ -175,40 +183,45 @@ def main(args):
     )
     reset_data(data, data_points)
 
-    if ratio > 0.0:
-
-        if method == "IF":
-            # note: this only affects PDE loss for now
-            influence_scores = np.load(
-                f"/opt/model_zoo_src/influence_scores_{n_iterations}_{num_domain}_{num_boundary}_{num_initial}_{seed}_hc_{hard_constrained}.npz"
-            )
-            infl_scores = influence_scores["influence_scores"]
-            candidate_points = influence_scores["candidate_points"]
+    if method == "IF":
+        # note: this only affects PDE loss for now
+        influence_scores = np.load(
+            f"/opt/model_zoo_src/influence_scores_{n_iterations}_{num_domain}_{num_boundary}_{num_initial}_{seed}_hc_{hard_constrained}.npz"
+        )
+        infl_scores = influence_scores["influence_scores"]
+        candidate_points = influence_scores["candidate_points"]
+        if influence_sign == "abs":
             summed_infl_scores = np.abs(infl_scores).sum(axis=0)
-            topk_idx = np.argsort(summed_infl_scores)[
-                int(ratio * len(data.train_x_all)) :
-            ]
-            new_anchors = candidate_points[topk_idx]
-            data.add_anchors(new_anchors)
+        elif influence_sign == "pos":
+            summed_infl_scores = infl_scores.sum(axis=0)
+        else:
+            summed_infl_scores = (-infl_scores).sum(axis=0)
+        topk_idx = torch.topk(
+            torch.tensor(summed_infl_scores),
+            int(ratio * len(data.train_x_all)),
+            dim=0,
+        )[1].numpy()
+        new_anchors = candidate_points[topk_idx]
+        data.add_anchors(new_anchors)
 
-        elif method == "random":
-            new_anchors = geomtime.random_points(int(ratio * len(data.train_x_all)))
-            data.add_anchors(new_anchors)
+    elif method == "random":
+        new_anchors = geomtime.random_points(int(ratio * len(data.train_x_all)))
+        data.add_anchors(new_anchors)
 
-        elif method == "RAR":
-            model = dde.Model(data, net)
-            model.compile("adam", lr=lr)
+    elif method == "RAR":
+        model = dde.Model(data, net)
+        model.compile("adam", lr=lr)
 
-            candidate_points = geomtime.random_points(n_candidate_points)
-            residual = np.abs(
-                model.predict(candidate_points, operator=burgers_equation)
-            )[:, 0]
-            err_eq = torch.tensor(residual)
-            topk_idx = torch.topk(err_eq, int(ratio * len(data.train_x_all)), dim=0)[
-                1
-            ].numpy()
-            new_anchors = candidate_points[topk_idx]
-            data.add_anchors(new_anchors)
+        candidate_points = geomtime.random_points(n_candidate_points)
+        residual = np.abs(model.predict(candidate_points, operator=burgers_equation))[
+            :, 0
+        ]
+        err_eq = torch.tensor(residual)
+        topk_idx = torch.topk(err_eq, int(ratio * len(data.train_x_all)), dim=0)[
+            1
+        ].numpy()
+        new_anchors = candidate_points[topk_idx]
+        data.add_anchors(new_anchors)
 
     model = dde.Model(data, net)
     model.compile("adam", lr=lr)
@@ -216,19 +229,19 @@ def main(args):
         epochs=10_000,
         callbacks=[
             BestModelCheckpoint(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_train.pt",
+                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_train_{influence_sign}.pt",
                 verbose=1,
                 save_better_only=True,
                 monitor="train loss",
             ),
             BestModelCheckpoint(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_test.pt",
+                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_test_{influence_sign}.pt",
                 verbose=1,
                 save_better_only=True,
                 monitor="test loss",
             ),
             BestModelCheckpoint(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_10k.pt",
+                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_10k_{influence_sign}.pt",
                 save_better_only=False,
             ),
         ],
@@ -239,7 +252,7 @@ def main(args):
     for model_name in ["train", "test", "10k"]:
         model.net.load_state_dict(
             torch.load(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_{model_name}.pt",
+                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_{model_name}_{influence_sign}.pt",
             )["model_state_dict"]
         )
 
@@ -255,11 +268,12 @@ def main(args):
         metrics["n_candidate_points"] = n_candidate_points
         metrics["hard_constrained"] = hard_constrained
         metrics["model_version"] = model_name
+        metrics["influence_sign"] = influence_sign
 
         df = pd.concat([df, pd.DataFrame([metrics])], ignore_index=True)
 
     df.to_csv(
-        f"{save_path}/metrics_ratio_{ratio:.3f}_{method}_{seed}_hc_{hard_constrained}.csv",
+        f"{save_path}/metrics_ratio_{ratio:.3f}_{method}_{seed}_hc_{hard_constrained}_{influence_sign}.csv",
         index=False,
     )
 
