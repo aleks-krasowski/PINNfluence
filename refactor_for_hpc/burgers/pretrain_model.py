@@ -37,6 +37,12 @@ def parse_args():
         help="Number of iterations",
     )
     parser.add_argument(
+        "--n_iterations_lbfgs",
+        type=int,
+        default=DEFAULTS["n_iterations_lbfgs"],
+        help="Number of iterations for L-BFGS",
+    )
+    parser.add_argument(
         "--num_domain",
         type=int,
         default=DEFAULTS["num_domain"],
@@ -99,8 +105,10 @@ def main(args):
     save_path = args.save_path
     seed = args.seed
     hard_constrained = args.hard_constrained
+    n_iterations_lbfgs = args.n_iterations_lbfgs
 
     dde.config.set_random_seed(seed)
+    dde.optimizers.config.set_LBFGS_options(maxiter=n_iterations_lbfgs)
 
     if not os.path.isdir(save_path):
         os.makedirs(save_path)
@@ -123,6 +131,9 @@ def main(args):
         ic_bcs = [bc, ic]
 
         model_name = f"{save_path}/adam_{n_iterations}_best_seed_{seed}.pt"
+
+    if layers != DEFAULTS["layers"]:
+        model_name = model_name.replace(".pt", f"_layers_{layers}.pt")
 
     data = dde.data.TimePDE(
         geomtime,
@@ -156,6 +167,20 @@ def main(args):
             )
         ],
     )
+
+    if n_iterations_lbfgs > 0:
+        model.compile("L-BFGS")
+        model.train(
+            iterations=n_iterations_lbfgs,
+            display_every=1000,
+            callbacks=[
+                BestModelCheckpoint(
+                    model_name,
+                    verbose=1,
+                    save_better_only=True,
+                )
+            ],
+        )
 
 
 if __name__ == "__main__":
