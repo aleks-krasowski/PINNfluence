@@ -223,6 +223,8 @@ def main(args):
         new_anchors = candidate_points[topk_idx]
         data.add_anchors(new_anchors)
 
+    # make sure training runs at same seed
+    dde.config.set_random_seed(seed)
     model = dde.Model(data, net)
     model.compile("adam", lr=lr)
     model.train(
