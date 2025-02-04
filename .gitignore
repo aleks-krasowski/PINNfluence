@@ -1,3 +1,7 @@
+# model_zoo 
+model_zoo/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
