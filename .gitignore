@@ -1,6 +1,7 @@
 # model_zoo 
 model_zoo/
-
+model_zoo_src/
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
