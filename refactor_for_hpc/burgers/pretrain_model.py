@@ -69,6 +69,12 @@ def parse_args():
     parser.add_argument(
         "--hard_constrained", action="store_true", help="Use hard constrained model"
     )
+    parser.add_argument(
+        "--train_distribution",
+        type=str,
+        default=DEFAULTS["train_distribution"],
+        help="Distribution of training points",
+    )
     return parser.parse_args()
 
 
@@ -106,6 +112,9 @@ def main(args):
     seed = args.seed
     hard_constrained = args.hard_constrained
     n_iterations_lbfgs = args.n_iterations_lbfgs
+    train_distribution = args.train_distribution
+
+    dde.config.set_default_float("float64")
 
     dde.config.set_random_seed(seed)
     dde.optimizers.config.set_LBFGS_options(maxiter=n_iterations_lbfgs)
@@ -135,6 +144,16 @@ def main(args):
     if layers != DEFAULTS["layers"]:
         model_name = model_name.replace(".pt", f"_layers_{layers}.pt")
 
+    if train_distribution != DEFAULTS["train_distribution"]:
+        model_name = model_name.replace(
+            ".pt", f"_train_distribution_{train_distribution}.pt"
+        )
+
+    if n_iterations_lbfgs > 0:
+        model_name = model_name.replace(
+            f"adam_{n_iterations}", f"adam_{n_iterations}_lbfgs_{n_iterations_lbfgs}"
+        )
+
     data = dde.data.TimePDE(
         geomtime,
         burgers_equation,
@@ -143,10 +162,20 @@ def main(args):
         num_boundary=num_boundary,
         num_initial=num_initial,
         num_test=10_000,
+        train_distribution=train_distribution,
     )
 
+    data_filename = (
+        f"{save_path}/data_{num_domain}_{num_boundary}_{num_initial}_{seed}.npz"
+    )
+
+    if train_distribution != DEFAULTS["train_distribution"]:
+        data_filename = data_filename.replace(
+            ".npz", f"_train_distribution_{train_distribution}.npz"
+        )
+
     np.savez_compressed(
-        f"{save_path}/data_{num_domain}_{num_boundary}_{num_initial}_{seed}.npz",
+        data_filename,
         train_x_all=data.train_x_all,
         train_x=data.train_x,
         train_x_bc=data.train_x_bc,
@@ -159,13 +188,7 @@ def main(args):
     model.train(
         iterations=n_iterations,
         display_every=1000,
-        callbacks=[
-            BestModelCheckpoint(
-                model_name,
-                verbose=1,
-                save_better_only=True,
-            )
-        ],
+        callbacks=[BestModelCheckpoint(model_name, verbose=0, save_better_only=False)],
     )
 
     if n_iterations_lbfgs > 0:
@@ -174,11 +197,7 @@ def main(args):
             iterations=n_iterations_lbfgs,
             display_every=1000,
             callbacks=[
-                BestModelCheckpoint(
-                    model_name,
-                    verbose=1,
-                    save_better_only=True,
-                )
+                BestModelCheckpoint(model_name, verbose=0, save_better_only=False)
             ],
         )
 

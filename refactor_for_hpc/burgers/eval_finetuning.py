@@ -94,6 +94,11 @@ def parse_args():
         help="Sign of influence scores",
         choices=["abs", "pos", "neg"],
     )
+    parser.add_argument(
+        "--replace",
+        action="store_true",
+        help="Replace training points with new ones instead of adding them",
+    )
     return parser.parse_args()
 
 
@@ -131,6 +136,15 @@ def reset_data(data, data_points):
     return data
 
 
+def change_train_data(data, new_anchors, replace=False):
+    if replace:
+        data.train_x_bc = None  # remove boundary points
+        data.replace_with_anchors(new_anchors)
+    else:
+        data.add_anchors(new_anchors)
+    return data
+
+
 def main(args):
     lr = args.lr
     layers = args.layers
@@ -145,6 +159,11 @@ def main(args):
     ratio = args.ratio
     method = args.method
     influence_sign = args.influence_sign
+    replace = args.replace
+
+    lr = lr * 0.1
+    if replace:
+        lr = lr * 0.1
 
     dde.config.set_random_seed(seed)
 
@@ -202,11 +221,11 @@ def main(args):
             dim=0,
         )[1].numpy()
         new_anchors = candidate_points[topk_idx]
-        data.add_anchors(new_anchors)
+        data = change_train_data(data, new_anchors, replace)
 
     elif method == "random":
         new_anchors = geomtime.random_points(int(ratio * len(data.train_x_all)))
-        data.add_anchors(new_anchors)
+        data = change_train_data(data, new_anchors, replace)
 
     elif method == "RAR":
         model = dde.Model(data, net)
@@ -221,7 +240,13 @@ def main(args):
             1
         ].numpy()
         new_anchors = candidate_points[topk_idx]
-        data.add_anchors(new_anchors)
+        data = change_train_data(data, new_anchors, replace)
+
+    chkpt_base_name = (
+        f"adam_{n_iterations}_seed_{seed}_{method}_MODELVERS_{influence_sign}"
+    )
+    if replace:
+        chkpt_base_name += "_replace"
 
     # make sure training runs at same seed
     dde.config.set_random_seed(seed)
@@ -231,32 +256,35 @@ def main(args):
         epochs=10_000,
         callbacks=[
             BestModelCheckpoint(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_train_{influence_sign}.pt",
+                f"{save_path}/{chkpt_base_name.replace('MODELVERS', 'train')}.pt",
                 verbose=1,
                 save_better_only=True,
                 monitor="train loss",
             ),
             BestModelCheckpoint(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_test_{influence_sign}.pt",
+                f"{save_path}/{chkpt_base_name.replace('MODELVERS', 'test')}.pt",
                 verbose=1,
                 save_better_only=True,
                 monitor="test loss",
             ),
             BestModelCheckpoint(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_10k_{influence_sign}.pt",
+                f"{save_path}/{chkpt_base_name.replace('MODELVERS', '10k')}.pt",
                 save_better_only=False,
             ),
         ],
+        display_every=1,
+        verbose=0,
     )
 
     df = pd.DataFrame()
 
     for model_name in ["train", "test", "10k"]:
-        model.net.load_state_dict(
-            torch.load(
-                f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_{model_name}_{influence_sign}.pt",
-            )["model_state_dict"]
+        state_dict = torch.load(
+            f"{save_path}/{chkpt_base_name.replace('MODELVERS', model_name)}.pt",
         )
+        model.net.load_state_dict(state_dict["model_state_dict"])
+
+        epoch = state_dict["epoch"]
 
         metrics = eval_model(model, X_test, y_true)
 
@@ -271,6 +299,8 @@ def main(args):
         metrics["hard_constrained"] = hard_constrained
         metrics["model_version"] = model_name
         metrics["influence_sign"] = influence_sign
+        metrics["replace"] = replace
+        metrics["epoch"] = epoch
 
         df = pd.concat([df, pd.DataFrame([metrics])], ignore_index=True)
 

@@ -110,6 +110,21 @@ def parse_args():
         action="store_true",
         help="Replace training points with new points",
     )
+    parser.add_argument(
+        "--train_distribution",
+        type=str,
+        default=DEFAULTS["train_distribution"],
+        help="Distribution of training points",
+    )
+    parser.add_argument(
+        "--n_iterations_lbfgs",
+        type=int,
+        default=DEFAULTS["n_iterations_lbfgs"],
+        help="Number of iterations for L-BFGS",
+    )
+    parser.add_argument(
+        "--use_float64", action="store_true", help="Use float64 for training"
+    )
     return parser.parse_args()
 
 
@@ -171,6 +186,7 @@ def get_random_scores(bli, bla, blu):
 def main(args):
     layers = args.layers
     n_iterations = args.n_iterations
+    n_iterations_lbfgs = args.n_iterations_lbfgs
     num_domain = args.num_domain
     num_boundary = args.num_boundary
     num_initial = args.num_initial
@@ -184,8 +200,14 @@ def main(args):
     k = args.k
     c = args.c
     replace = args.replace
+    train_distribution = args.train_distribution
+    use_float64 = args.use_float64
+
+    if use_float64:
+        dde.config.set_default_float("float64")
 
     dde.config.set_random_seed(seed)
+    dde.optimizers.config.set_LBFGS_options(1000)
 
     X_test, y_true = gen_testdata()
 
@@ -205,6 +227,19 @@ def main(args):
 
         model_name_src = f"/opt/model_zoo_src/adam_{n_iterations}_best_seed_{seed}.pt"
 
+    if layers != DEFAULTS["layers"]:
+        model_name_src = model_name_src.replace(".pt", f"_layers_{layers}.pt")
+
+    if train_distribution != DEFAULTS["train_distribution"]:
+        model_name_src = model_name_src.replace(
+            ".pt", f"_train_distribution_{train_distribution}.pt"
+        )
+
+    if n_iterations_lbfgs > 0:
+        model_name_src = model_name_src.replace(
+            f"adam_{n_iterations}", f"adam_{n_iterations}_lbfgs_{n_iterations_lbfgs}"
+        )
+
     net.load_state_dict(torch.load(model_name_src)["model_state_dict"])
 
     data = dde.data.TimePDE(
@@ -217,9 +252,23 @@ def main(args):
         num_test=10_000,
     )
 
-    data_points = np.load(
+    data_filename = (
         f"/opt/model_zoo_src/data_{num_domain}_{num_boundary}_{num_initial}_{seed}.npz"
     )
+
+    if train_distribution != DEFAULTS["train_distribution"]:
+        data_filename = data_filename.replace(
+            ".npz", f"_train_distribution_{train_distribution}.npz"
+        )
+
+    data_points = np.load(data_filename)
+
+    if use_float64:
+        data_points["train_x_all"] = data_points["train_x_all"].astype(np.float64)
+        data_points["train_x"] = data_points["train_x"].astype(np.float64)
+        data_points["train_x_bc"] = data_points["train_x_bc"].astype(np.float64)
+        data_points["test_x"] = data_points["test_x"].astype(np.float64)
+
     reset_data(data, data_points)
 
     model = dde.Model(data, net)
@@ -236,6 +285,8 @@ def main(args):
     metrics["n_candidate_points"] = n_candidate_points
     metrics["hard_constrained"] = hard_constrained
     metrics["distribution"] = distribution_based
+    metrics["cur_num_train"] = len(data.train_x_all)
+    metrics["num_sample_points"] = n_sample_points
     metrics["k"] = k
     metrics["c"] = c
     metrics["i"] = 0
@@ -281,8 +332,14 @@ def main(args):
         else:
             data.add_anchors(new_anchors)
 
+        print(f"Iteration {i+1} - len data: {len(data.train_x_all)}")
+
         model.compile("adam", lr=args.lr)
         model.train(iterations=1000, display_every=100, verbose=0)
+
+        if n_iterations_lbfgs > 0:
+            model.compile("L-BFGS")
+            model.train()
 
         metrics = eval_model(model, X_test, y_true)
 
@@ -295,6 +352,8 @@ def main(args):
         metrics["n_candidate_points"] = n_candidate_points
         metrics["hard_constrained"] = hard_constrained
         metrics["distribution"] = distribution_based
+        metrics["cur_num_train"] = len(data.train_x_all)
+        metrics["num_sample_points"] = n_sample_points
         metrics["k"] = k
         metrics["c"] = c
         metrics["i"] = i + 1
@@ -308,10 +367,19 @@ def main(args):
         loss_train=loss_history.loss_train,
         loss_test=loss_history.loss_test,
     )
-    model.save(f"{save_path}/adam_{n_iterations}_seed_{seed}_{method}_train")
+    np.savez(
+        f"{save_path}/data_{num_domain}_{num_boundary}_{num_initial}_{seed}_iter_{i+i}_{method}.npz",
+        train_x_all=data.train_x_all,
+        train_x=data.train_x,
+        train_x_bc=data.train_x_bc,
+        test_x=data.test_x,
+    )
     df.to_csv(
         f"{save_path}/rar_metrics_{method}_{seed}_hc_{hard_constrained}_distribution_{distribution_based}.csv",
         index=False,
+    )
+    model.save(
+        f"{save_path}/{os.path.basename(model_name_src.replace('.pt', f'_{method}_{i+1}'))}"
     )
 
 

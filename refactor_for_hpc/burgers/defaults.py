@@ -6,9 +6,11 @@ DEFAULTS = {
     "num_domain": 2_540,
     "num_boundary": 80,
     "num_initial": 160,
+    "optimizer": "adam",
     "k": 1,
     "c": 1,
     "save_path": "/opt/model_zoo",
     "device": "cpu",
     "seed": 42,
+    "train_distribution": "Hammersley",
 }
