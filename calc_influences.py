@@ -6,6 +6,7 @@ import torch
 from pathlib import Path
 from _utils.models import PINNLoss, NetPredWrapper, NetworkWithPDE, ScaledFNN
 from _utils.dataset import DummyDataset
+from _utils.utils import set_default_device
 from train import (
     navier_stokes,
     navier_stokes_broken,
@@ -44,7 +45,8 @@ def main(args):
     broken = args.broken
     save_path = Path(args.save_path)
 
-    device = torch.get_default_device()
+    device = args.device
+    set_default_device(device)
 
     if not save_path.exists():
         save_path.mkdir(parents=True, exist_ok=True)

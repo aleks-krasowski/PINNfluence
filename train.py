@@ -5,7 +5,7 @@ import deepxde as dde
 import numpy as np
 
 from _utils.models import ScaledFNN
-from _utils.utils import StopOnBrokenLBFGS
+from _utils.utils import StopOnBrokenLBFGS, set_default_device
 
 
 def parse_args():
@@ -17,7 +17,15 @@ def parse_args():
     parser.add_argument('--num_domain', type=int, default=7_500, help='Number of domain points')
     parser.add_argument('--num_boundary', type=int, default=2_500, help='Number of boundary points')
     parser.add_argument('--save_path', type=str, default='./model_zoo', help='Path to save model')
-    parser.add_argument("--broken", action="store_true", help="Use broken navier stokes equation")
+    parser.add_argument("--broken", action="store_true", help="Use broken navier stokes equation"
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="cpu",
+        choices=["cpu", "cuda", "mps"],
+        help="Device to use for computation",
+    )
     return parser.parse_args()
 
 
@@ -169,6 +177,9 @@ def main(args):
     n_iter = args.n_iterations
     n_iter_lbfgs = args.n_iterations_lbfgs
     broken = args.broken
+    device = args.device
+
+    set_default_device(device)
 
     if not save_path.exists():
         save_path.mkdir(parents=True, exist_ok=True)
