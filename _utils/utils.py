@@ -22,7 +22,9 @@ class StopOnBrokenLBFGS(dde.callbacks.Callback):
         n_iter = self.model.opt.state_dict()["state"][0]["n_iter"]
 
         # if only one iteration was executed although more are defined we assume that something broke
-        if (n_iter - self.prev_n_iter == 1) and (dde.optimizers.LBFGS_options["iter_per_step"] != 1):
+        if (n_iter - self.prev_n_iter == 1) and (
+            dde.optimizers.LBFGS_options["iter_per_step"] != 1
+        ):
             self.model.stop_training = True
             print("Encountered broken LBFGS. Stopping training.")
 

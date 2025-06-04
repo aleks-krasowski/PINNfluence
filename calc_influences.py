@@ -20,20 +20,52 @@ from train import (
     L,
     W,
     cylinder_center,
-    radius
+    radius,
 )
 
 dde.config.set_random_seed(42)
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description='Calculate Influence Function')
-    parser.add_argument("--checkpoint", type=str, default="./model_zoo/good/lbfgs-125000.pt", help="Model checkpoint to use")
-    parser.add_argument("--layers", type=int, nargs="+", default=[2, 64, 64, 64, 64, 3], help="Layer sizes")
-    parser.add_argument("--batch_size", type=int, default=1, help='batch size for the dataloaders')
-    parser.add_argument("--train_x_path", type=str, help='Path to numpy file containing training data', required=True)
+    parser = argparse.ArgumentParser(description="Calculate Influence Function")
+    parser.add_argument(
+        "--checkpoint",
+        type=str,
+        default="./model_zoo/good/lbfgs-125000.pt",
+        help="Model checkpoint to use",
+    )
+    parser.add_argument(
+        "--layers",
+        type=int,
+        nargs="+",
+        default=[2, 64, 64, 64, 64, 3],
+        help="Layer sizes",
+    )
+    parser.add_argument(
+        "--batch_size", type=int, default=1, help="batch size for the dataloaders"
+    )
+    parser.add_argument(
+        "--train_x_path",
+        type=str,
+        help="Path to numpy file containing training data",
+        required=True,
+    )
     parser.add_argument("--broken", action="store_true", help="Use broken PDE")
-    parser.add_argument('--save_path', type=str, default='./model_zoo/influences', help='Path to save model')
+    parser.add_argument(
+        "--save_path",
+        type=str,
+        default="./model_zoo/influences",
+        help="Path to save model",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="cpu",
+        choices=["cpu", "cuda", "mps"],
+        help="Device to use for computation",
+    )
     return parser.parse_args()
+
 
 def main(args):
     print(args)
@@ -52,11 +84,12 @@ def main(args):
         save_path.mkdir(parents=True, exist_ok=True)
 
     checkpoint_load_func = lambda model, path: model.load_state_dict(
-        torch.load(path, map_location=device)['model_state_dict'])
+        torch.load(path, map_location=device)["model_state_dict"]
+    )
 
     checkpoint_load_func_pde_net = lambda model, path: model.pinn.load_state_dict(
-        torch.load(path, map_location=device)['model_state_dict'])
-
+        torch.load(path, map_location=device)["model_state_dict"]
+    )
 
     net = ScaledFNN(layers, "gelu", "Glorot uniform", L, W)
     checkpoint_load_func(net, chkpt_path)
@@ -65,21 +98,35 @@ def main(args):
     continuity = lambda xy, out: navier_stokes(xy, out)[0]
     momentum_x = lambda xy, out: navier_stokes(xy, out)[1]
     momentum_y = lambda xy, out: navier_stokes(xy, out)[2]
-    inflow_boundary = lambda x: torch.isclose(x[:, 0], torch.tensor(0, dtype=torch.float32))
-    outflow_boundary = lambda x: torch.isclose(x[:, 0], torch.tensor(L, dtype=torch.float32))
+    inflow_boundary = lambda x: torch.isclose(
+        x[:, 0], torch.tensor(0, dtype=torch.float32)
+    )
+    outflow_boundary = lambda x: torch.isclose(
+        x[:, 0], torch.tensor(L, dtype=torch.float32)
+    )
     noslip_boundary = lambda x: torch.logical_or(
         torch.logical_or(
             torch.isclose(x[:, 1], torch.tensor(0, dtype=torch.float32)),
-            torch.isclose(x[:, 1], torch.tensor(W, dtype=torch.float32))
+            torch.isclose(x[:, 1], torch.tensor(W, dtype=torch.float32)),
         ),
-        (torch.sqrt((x[:, 0] - cylinder_center[0]) ** 2 + (x[:, 1] - cylinder_center[1]) ** 2) <= radius)
+        (
+            torch.sqrt(
+                (x[:, 0] - cylinder_center[0]) ** 2
+                + (x[:, 1] - cylinder_center[1]) ** 2
+            )
+            <= radius
+        ),
     )
 
     pde_net = NetworkWithPDE(
         pinn=net,
         pdes=[
             continuity,
-            momentum_x if not broken else lambda xy, out: navier_stokes_broken(xy, out)[1],
+            (
+                momentum_x
+                if not broken
+                else lambda xy, out: navier_stokes_broken(xy, out)[1]
+            ),
             momentum_y,
         ],
         bcs=[
@@ -90,7 +137,7 @@ def main(args):
             (bc_noslip_u, noslip_boundary),
             (bc_noslip_v, noslip_boundary),
         ],
-        geom=geom
+        geom=geom,
     )
 
     train_x = np.load(train_x_path)
@@ -104,17 +151,20 @@ def main(args):
         loss_fn=PINNLoss(),
         show_progress=True,
         projection_on_cpu=False,
-        checkpoints_load_func=lambda x,y: 0, # already loaded thus dummy
-        batch_size=batch_size
+        checkpoints_load_func=lambda x, y: 0,  # already loaded thus dummy
+        batch_size=batch_size,
     )
-
 
     arrs = {}
 
-    test_x = np.array(np.load("./dataset/ns_steady.npy", allow_pickle=True).item()['coords']).astype(np.float32)
+    test_x = np.array(
+        np.load("./dataset/ns_steady.npy", allow_pickle=True).item()["coords"]
+    ).astype(np.float32)
     print(f"test data shape: {test_x.shape}")
     testset = DummyDataset(test_x, return_zeroes=True)
-    testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size, shuffle=False)
+    testloader = torch.utils.data.DataLoader(
+        testset, batch_size=batch_size, shuffle=False
+    )
 
     # calculate f(x) influence for model output dimensions
     # fourth dimension is vector norm of 0 and 1 (|||vec{u}|| = sqrt{u_1^2 + u_2^2})
@@ -124,22 +174,28 @@ def main(args):
     arrs["train_x"] = train_x
     arrs["test_x"] = test_x
 
-    for output_dim in range(0,4):
+    for output_dim in range(0, 4):
         if_instance.model_test = NetPredWrapper(net, output_dim)
         print(f"output dim: {output_dim}")
-        arrs[f"output_dim_{output_dim}"] = if_instance.influence(testloader, show_progress=True)
+        arrs[f"output_dim_{output_dim}"] = if_instance.influence(
+            testloader, show_progress=True
+        )
 
     # calculate loss influences
     if_instance.model_test = pde_net
 
     print("pde")
-    if_instance.test_loss_fn = PINNLoss(include_all_losses=False, include_specific_ids=[0,1,2])
+    if_instance.test_loss_fn = PINNLoss(
+        include_all_losses=False, include_specific_ids=[0, 1, 2]
+    )
     if_instance.test_reduction_type = "none"
     influences_pde = if_instance.influence(testloader, show_progress=True)
     arrs["influences_pde"] = influences_pde
 
     print("bcs")
-    if_instance.test_loss_fn = PINNLoss(include_all_losses=False, include_specific_ids=[3, 4, 5, 6, 7, 8])
+    if_instance.test_loss_fn = PINNLoss(
+        include_all_losses=False, include_specific_ids=[3, 4, 5, 6, 7, 8]
+    )
     if_instance.test_reduction_type = "none"
     influences_bcs = if_instance.influence(testloader, show_progress=True)
     arrs["bcs"] = influences_bcs
@@ -151,6 +207,7 @@ def main(args):
     arrs["all_loss_terms"] = influences_bcs
 
     np.savez_compressed(str(save_path / "influence_arrs"), **arrs)
+
 
 if __name__ == "__main__":
     args = parse_args()

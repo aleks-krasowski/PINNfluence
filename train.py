@@ -10,14 +10,31 @@ from _utils.utils import StopOnBrokenLBFGS, set_default_device
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Navier-Stokes Solver")
-    parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
-    parser.add_argument('--layers', type=int, nargs='+', default=[2, 64, 64, 64, 64, 3], help='Layer sizes')
-    parser.add_argument('--n_iterations', type=int, default=100_000, help='Number of iterations')
-    parser.add_argument('--n_iterations_lbfgs', type=int, default=25_000, help='Number of iterations')
-    parser.add_argument('--num_domain', type=int, default=7_500, help='Number of domain points')
-    parser.add_argument('--num_boundary', type=int, default=2_500, help='Number of boundary points')
-    parser.add_argument('--save_path', type=str, default='./model_zoo', help='Path to save model')
-    parser.add_argument("--broken", action="store_true", help="Use broken navier stokes equation"
+    parser.add_argument("--lr", type=float, default=0.001, help="Learning rate")
+    parser.add_argument(
+        "--layers",
+        type=int,
+        nargs="+",
+        default=[2, 64, 64, 64, 64, 3],
+        help="Layer sizes",
+    )
+    parser.add_argument(
+        "--n_iterations", type=int, default=100_000, help="Number of iterations"
+    )
+    parser.add_argument(
+        "--n_iterations_lbfgs", type=int, default=25_000, help="Number of iterations"
+    )
+    parser.add_argument(
+        "--num_domain", type=int, default=7_500, help="Number of domain points"
+    )
+    parser.add_argument(
+        "--num_boundary", type=int, default=2_500, help="Number of boundary points"
+    )
+    parser.add_argument(
+        "--save_path", type=str, default="./model_zoo", help="Path to save model"
+    )
+    parser.add_argument(
+        "--broken", action="store_true", help="Use broken navier stokes equation"
     )
     parser.add_argument(
         "--device",
@@ -105,28 +122,36 @@ geom = geom_space - cylinder
 bc_noslip_u = dde.DirichletBC(
     geom,
     lambda x: 0,
-    lambda x, on_boundary: on_boundary and (
-            np.isclose(x[1], 0)
-            or np.isclose(x[1], W)
-            or (np.sqrt((x[0] - cylinder_center[0]) ** 2 + (x[1] - cylinder_center[1]) ** 2) <= radius)
+    lambda x, on_boundary: on_boundary
+    and (
+        np.isclose(x[1], 0)
+        or np.isclose(x[1], W)
+        or (
+            np.sqrt((x[0] - cylinder_center[0]) ** 2 + (x[1] - cylinder_center[1]) ** 2)
+            <= radius
+        )
     ),
-    component=0
+    component=0,
 )
 bc_noslip_v = dde.DirichletBC(
     geom,
     lambda x: 0,
-    lambda x, on_boundary: on_boundary and (
-            np.isclose(x[1], 0)
-            or np.isclose(x[1], W)
-            or (np.sqrt((x[0] - cylinder_center[0]) ** 2 + (x[1] - cylinder_center[1]) ** 2) <= radius)
+    lambda x, on_boundary: on_boundary
+    and (
+        np.isclose(x[1], 0)
+        or np.isclose(x[1], W)
+        or (
+            np.sqrt((x[0] - cylinder_center[0]) ** 2 + (x[1] - cylinder_center[1]) ** 2)
+            <= radius
+        )
     ),
-    component=1
+    component=1,
 )
 
 
 def parabolic_inflow_u(xy):
     y = xy[:, 1:2]
-    u = 4 * U_max * y * (W - y) / (W ** 2)
+    u = 4 * U_max * y * (W - y) / (W**2)
     return u
 
 
@@ -145,23 +170,19 @@ bc_inflow_u = dde.DirichletBC(
     geom,
     parabolic_inflow_u,
     lambda x, on_boundary: on_boundary and np.isclose(x[0], 0),
-    component=0
+    component=0,
 )
 bc_inflow_v = dde.DirichletBC(
     geom,
     lambda x: 0,
     lambda x, on_boundary: on_boundary and np.isclose(x[0], 0),
-    component=1
+    component=1,
 )
 bc_outflow_u = dde.OperatorBC(
-    geom,
-    outflow_u,
-    lambda x, on_boundary: on_boundary and np.isclose(x[0], L)
+    geom, outflow_u, lambda x, on_boundary: on_boundary and np.isclose(x[0], L)
 )
 bc_outflow_v = dde.OperatorBC(
-    geom,
-    outflow_v,
-    lambda x, on_boundary: on_boundary and np.isclose(x[0], L)
+    geom, outflow_v, lambda x, on_boundary: on_boundary and np.isclose(x[0], L)
 )
 
 bcs = [bc_inflow_u, bc_inflow_v, bc_outflow_u, bc_outflow_v, bc_noslip_u, bc_noslip_v]
@@ -195,7 +216,7 @@ def main(args):
         bcs=bcs,
         num_domain=num_domain,
         num_boundary=num_boundary,
-        num_test=2_500
+        num_test=2_500,
     )
 
     net = ScaledFNN(layers, "gelu", "Glorot uniform", L, W)
