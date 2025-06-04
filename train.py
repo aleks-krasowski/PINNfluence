@@ -237,7 +237,7 @@ def main(args):
         maxiter=n_iter_lbfgs,
     )
     model.compile("L-BFGS")
-    model.train(display_every=1, callbacks=[stop_on_broken])
+    model.train(display_every=1000, callbacks=[stop_on_broken])
 
     model.save(f"{save_path}/lbfgs")
     np.save(f"{save_path}/train_x", data.train_x_all)
