@@ -44,7 +44,7 @@ python train.py --save_path ./model_zoo/good
 python train.py --broken --save_path ./model_zoo/broken
 
 # bad
-python train.py --num_domain 1500 --num_boundary 500 --save_path ./model_zoo/broken
+python train.py --num_domain 1500 --num_boundary 500 --save_path ./model_zoo/bad
 ```
 
 To calculate influences please run the following. The results will be stored in the `save_path` argument provided.
