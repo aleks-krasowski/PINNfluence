@@ -1,0 +1,47 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "pinnfluence"
+version = "1.0.0"
+authors = [
+  {name = "Aleksander Krasowski", email = "aleksander.krasowski@hhi.fraunhofer.de"}
+]
+description = "Implementation for PINNfluence: Interpreting PINNs through Influence Functions"
+license = {text = "BSD 3-Clause"}
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD 3-Clause License",
+    "Operating System :: OS Independent",
+    "Private :: Do Not Upload"
+]
+dependencies = [
+    "captum @ git+https://github.com/aleks-krasowski/captum.git",
+    "deepxde @ git+https://github.com/aleks-krasowski/deepxde.git",
+    "jupyter",
+    "jupyterlab", 
+    "ipykernel",
+    "matplotlib",
+    "numpy",
+    "seaborn",
+    "pandas",
+    "pip",
+    "scikit-learn",
+    "tabulate",
+    "torch",
+    "wandb",
+]
+
+[project.urls]
+Homepage = "https://gitlab.fe.hhi.de/pinns/pinnfluence"
+Issues = "https://gitlab.fe.hhi.de/pinns/pinnfluence"
+
+
+[tool.pdm]
+excludes = ["notebooks", "runscripts"]
+package-dir = "."
+includes = ["pinnfluence"]
+
