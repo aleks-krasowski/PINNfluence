@@ -2,25 +2,31 @@
 
 *Aleksander Krasowski\*, Jonas R. Naujoks\*, Moritz Weckbecker, Galip Ü. Yolcu, Thomas Wiegand, Sebastian Lapuschkin, Wojciech Samek, René P. Klausen* — **ICML 2026**
 
-[![arXiv](https://img.shields.io/badge/arXiv-2409.08958-b31b1b.svg)](https://arxiv.org/abs/2409.08958)
-
+[![arXiv](https://img.shields.io/badge/arXiv-2409.08958-b31b1b.svg)](https://arxiv.org/abs/2409.08958) [![Web demo](https://img.shields.io/badge/Web%20demo-pinnfluence.hhi.fraunhofer.de-blue)](https://pinnfluence.hhi.fraunhofer.de) [![Poster](https://img.shields.io/badge/Poster-ICML%202026-purple)](https://icml.cc/virtual/2026/poster/61837)
 
 ![Visual Abstract](./assets/pinnfluence_overview.png)
 
 This repository provides a CLI and a small library to reproduce the experiments, figures,
 and influence-based diagnostics from the paper.
 
-You can find a demo notebook in [notebooks/demo.ipynb](notebooks/demo.ipynb) which recreates
+### Interactive web demo
+
+Try PINNfluence in your browser: **[pinnfluence.hhi.fraunhofer.de](https://pinnfluence.hhi.fraunhofer.de)**
+
+[![PINNfluence web demo](./assets/web_demo.png)](https://pinnfluence.hhi.fraunhofer.de)
+
+### Demo notebook
+
+For a more in-depth exploration of the influence analysis, we provide a demo notebook,
+[notebooks/demo.ipynb](notebooks/demo.ipynb), which recreates
 the training and influence calculation for the drift-diffusion problem and shows how to
 generate point-wise heatmaps from the results. It is also a good starting point for running
 the analysis on the remaining problems. The demo runs reasonably quickly (≈ 5–20 min), so
 feel free to play around.
 
-
 ### Abstract
 
-> Physics-informed neural networks (PINNs) have emerged as a powerful deep learning approach for solving partial differential equations (PDEs) in the physical sciences, yet their behavior remains largely opaque and is typically understood through failure mode analyses rather than explicit interpretability. To address this issue, we introduce PINNfluence, a training data attribution framework for interpreting PINNs based on influence functions. By extending influence functions to composite physics-informed training objectives, we enable fine-grained attribution between predictions, loss components, and training data points. Through benchmark experiments across various PDEs, we demonstrate that influence patterns provide granular diagnostics that distinguish structural characteristics across well-trained and poorly-trained PINNs. PINNfluence thus opens a new avenue for understanding and improving the reliability of PINNs through the lens of their data. 
-
+> Physics-informed neural networks (PINNs) have emerged as a powerful deep learning approach for solving partial differential equations (PDEs) in the physical sciences, yet their behavior remains largely opaque and is typically understood through failure mode analyses rather than explicit interpretability. To address this issue, we introduce PINNfluence, a training data attribution framework for interpreting PINNs based on influence functions. By extending influence functions to composite physics-informed training objectives, we enable fine-grained attribution between predictions, loss components, and training data points. Through benchmark experiments across various PDEs, we demonstrate that influence patterns provide granular diagnostics that distinguish structural characteristics across well-trained and poorly-trained PINNs. PINNfluence thus opens a new avenue for understanding and improving the reliability of PINNs through the lens of their data.
 
 ## Requirements
 
@@ -39,7 +45,6 @@ uv pip install .      # from inside the project root
 ```
 
 ### Alternative: installation using `pip`
-
 
 ```bash
 pip install .         # from inside the project root
@@ -76,7 +81,6 @@ The seven problems in the paper are registered in
 [`pinnfluence/utils/defaults.py`](pinnfluence/utils/defaults.py) (`PROBLEMS` for
 well-trained, `BAD_PROBLEMS` for poorly-trained): `allen_cahn`, `burgers`, `diffusion`
 (= Heat), `drift_diffusion`, `wave`, `navier_stokes_nd`, and `poisson_disk`.
-
 
 ## Citation
 
