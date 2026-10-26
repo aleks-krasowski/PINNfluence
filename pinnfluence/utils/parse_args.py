@@ -199,4 +199,9 @@ def parse_precalculate_args():
         default=None,
         help="PINNfluence only: batch size of the Hessian-vector products that build R. Default: all training points in one batch (fastest); lower it if this runs out of memory",
     )
+    parser.add_argument(
+        "--recompute_R",
+        action="store_true",
+        help="PINNfluence only: recompute the influence function's inverse-Hessian basis R instead of loading it from the cache in the system temp dir (the cache is keyed by model name, weights and training points)",
+    )
     return parser.parse_args()

@@ -10,7 +10,9 @@ Usage:
     Use --help to see all available options.
 """
 
+import getpass
 import os
+import tempfile
 
 import deepxde as dde
 import numpy as np
@@ -181,6 +183,7 @@ def main(
     self_influence: bool = False,
     vectorize: str = None,
     hessian_batch_size: int = None,
+    recompute_R: bool = False,
 ):
     # Validate arguments
     if left is None or right is None:
@@ -263,7 +266,12 @@ def main(
             use_train_set=True,
             show_progress=False,
             model_name=model_name,
-            prefer_load_R=False,
+            # R depends only on the model and its training points, so reuse it
+            # across left/right term pairs; per-user dir as /tmp may be shared
+            tmp_dir=os.path.join(
+                tempfile.gettempdir(), f"pinnfluence_r_cache_{getpass.getuser()}"
+            ),
+            prefer_load_R=not recompute_R,
             batch_size=batch_size,
             vectorize=vectorize,
             hessian_batch_size=hessian_batch_size,
@@ -337,4 +345,5 @@ if __name__ == "__main__":
         self_influence=getattr(args, "self_influence", False),
         vectorize=args.vectorize,
         hessian_batch_size=args.hessian_batch_size,
+        recompute_R=args.recompute_R,
     )

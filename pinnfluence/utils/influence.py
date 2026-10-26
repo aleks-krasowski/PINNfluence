@@ -1,3 +1,4 @@
+import hashlib
 import time
 from typing import Optional
 
@@ -43,6 +44,11 @@ def instantiate_IF(
         influences_set = data.geom.random_points(1_000, random="pseudo")
 
     print(f"Influences set shape (right side of equation): {influences_set.shape}")
+    # R depends on the weights and the Hessian points: key the cache on both, so a
+    # model retrained under the same name does not reuse a stale R
+    r_key = hashlib.sha256(np.ascontiguousarray(influences_set).tobytes())
+    for p in net.parameters():
+        r_key.update(p.detach().cpu().numpy().tobytes())
     # Add dummy zero targets for DataLoader
     influences_set = DummyDataset(influences_set, return_zeroes=True)
 
@@ -81,7 +87,7 @@ def instantiate_IF(
             ),
         ),
         seed=seed,
-        r_cache_path=f"{tmp_dir}/{model_name}_r_cache.pt",
+        r_cache_path=f"{tmp_dir}/{model_name}_{r_key.hexdigest()[:12]}_r_cache.pt",
         prefer_load_R=prefer_load_R,
         projection_dim=projection_dim,
         vectorize=vectorize,
