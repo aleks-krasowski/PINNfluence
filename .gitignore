@@ -15,6 +15,7 @@ graphify-out/
 *.pyc
 *.pt
 *.npz
+!pinnfluence/data/*.npz
 
 # temporary files
 tmp/
