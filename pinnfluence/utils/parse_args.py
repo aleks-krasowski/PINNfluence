@@ -193,4 +193,10 @@ def parse_precalculate_args():
         default=None,
         help="PINNfluence only: compute per-sample gradients with batched backward passes (same scores, faster on GPU)",
     )
+    parser.add_argument(
+        "--hessian_batch_size",
+        type=int,
+        default=None,
+        help="PINNfluence only: batch size of the Hessian-vector products that build R. Default: all training points in one batch (fastest); lower it if this runs out of memory",
+    )
     return parser.parse_args()

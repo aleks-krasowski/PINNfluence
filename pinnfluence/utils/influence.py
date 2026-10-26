@@ -22,12 +22,16 @@ def instantiate_IF(
     projection_dim: int = 50,
     vectorize: Optional[str] = None,
     vectorize_chunk_size: int = 64,
+    hessian_batch_size: int = None,
 ):
     """Create an instance of Influence Function estimator
 
     vectorize: None (per-sample backward loop) or "batched_grad" (batched
         backward, `vectorize_chunk_size` samples at a time; same results, faster
         on GPU). See captum's `ArnoldiInfluenceFunctionPrecomputed`.
+    hessian_batch_size: batch size of the Hessian-vector products that build R.
+        None uses all points in one batch (fewest products, fastest); lower it
+        if building R runs out of memory. Independent of `batch_size`.
     """
     data = model.data
     net = model.net
@@ -62,6 +66,20 @@ def instantiate_IF(
         checkpoint="dummy",
         checkpoints_load_func=lambda x, y: 0,  # net assumed to be loaded
         batch_size=batch_size,
+        # The Arnoldi iteration re-reads this loader for every Hessian-vector
+        # product (~200x). Default batching collates point by point each time,
+        # which made building R 1.5-2.3x slower. A BatchSampler with
+        # batch_size=None hands DummyDataset a list of indices, so each batch
+        # is a single indexing op (same R, bitwise).
+        hessian_dataset=torch.utils.data.DataLoader(
+            influences_set,
+            batch_size=None,
+            sampler=torch.utils.data.BatchSampler(
+                torch.utils.data.SequentialSampler(influences_set),
+                hessian_batch_size or len(influences_set),
+                drop_last=False,
+            ),
+        ),
         seed=seed,
         r_cache_path=f"{tmp_dir}/{model_name}_r_cache.pt",
         prefer_load_R=prefer_load_R,
