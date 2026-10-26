@@ -180,6 +180,7 @@ def main(
     right: str = None,
     self_influence: bool = False,
     vectorize: str = None,
+    hessian_batch_size: int = None,
 ):
     # Validate arguments
     if left is None or right is None:
@@ -247,7 +248,8 @@ def main(
             )
         print(f"Sampled {len(candidate_points)} candidate points")
 
-    batch_size = 1024
+    # batched_grad cost grows with chunk x batch size; 256 was fastest
+    batch_size = 256 if vectorize else 1024
 
     # Instantiate IF
     print("Instantiating influence function...")
@@ -262,7 +264,9 @@ def main(
             show_progress=False,
             model_name=model_name,
             prefer_load_R=False,
+            batch_size=batch_size,
             vectorize=vectorize,
+            hessian_batch_size=hessian_batch_size,
         )
 
     # Compute single influence matrix
@@ -332,4 +336,5 @@ if __name__ == "__main__":
         right=args.right,
         self_influence=getattr(args, "self_influence", False),
         vectorize=args.vectorize,
+        hessian_batch_size=args.hessian_batch_size,
     )
