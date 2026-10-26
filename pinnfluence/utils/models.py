@@ -162,7 +162,7 @@ class ModelWrapper(torch.nn.Module):
                         """
                         # NOTE: there may be a cleaner solution - yet to be found:
                         bc_loss_curr = bc.error(
-                            x_subset.detach().numpy(),
+                            x_subset.detach().cpu().numpy(),
                             x_subset,
                             outputs_subset,
                             0,
@@ -183,7 +183,7 @@ class ModelWrapper(torch.nn.Module):
                     bc_points_outputs = self.net(bc_points_tensor)
 
                     bc_loss_curr = bc.error(
-                        bc_points_tensor.detach().numpy(),
+                        bc_points_tensor.detach().cpu().numpy(),
                         bc_points_tensor,
                         bc_points_outputs,
                         0,
