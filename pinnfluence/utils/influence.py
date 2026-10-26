@@ -9,6 +9,7 @@ import torch
 from .dataset import DummyDataset
 from .models import ModelWrapper, PINNLoss
 
+
 def instantiate_IF(
     model,
     model_name: str,
@@ -130,6 +131,10 @@ def calculate_influence_scores(
     print("Calculating influences")
     start = time.time()
     influences = tda_instance.influence(test_samples, show_progress=show_progress)
+    # captum returns +grad_f^T H^-1 grad_L (grad dot: H = Id)
+    # however we define influence as -grad_f^T H^-1 grad_L
+    # so we negate the result
+    influences = -influences
     end = time.time()
     print(f"Influence calculation took: {end - start}")
 
