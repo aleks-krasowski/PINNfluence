@@ -20,8 +20,15 @@ def instantiate_IF(
     tmp_dir: Optional[str] = "tmp/r_cache/",
     prefer_load_R: bool = True,
     projection_dim: int = 50,
+    vectorize: Optional[str] = None,
+    vectorize_chunk_size: int = 64,
 ):
-    """Create an instance of Influence Function estimator"""
+    """Create an instance of Influence Function estimator
+
+    vectorize: None (per-sample backward loop) or "batched_grad" (batched
+        backward, `vectorize_chunk_size` samples at a time; same results, faster
+        on GPU). See captum's `ArnoldiInfluenceFunctionPrecomputed`.
+    """
     data = model.data
     net = model.net
 
@@ -59,6 +66,8 @@ def instantiate_IF(
         r_cache_path=f"{tmp_dir}/{model_name}_r_cache.pt",
         prefer_load_R=prefer_load_R,
         projection_dim=projection_dim,
+        vectorize=vectorize,
+        vectorize_chunk_size=vectorize_chunk_size,
     )
     end = time.time()
     print(f"Approximation took: {end - start}")

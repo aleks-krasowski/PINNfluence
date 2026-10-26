@@ -179,6 +179,7 @@ def main(
     left: str = None,
     right: str = None,
     self_influence: bool = False,
+    vectorize: str = None,
 ):
     # Validate arguments
     if left is None or right is None:
@@ -261,6 +262,7 @@ def main(
             show_progress=False,
             model_name=model_name,
             prefer_load_R=False,
+            vectorize=vectorize,
         )
 
     # Compute single influence matrix
@@ -329,4 +331,5 @@ if __name__ == "__main__":
         left=args.left,
         right=args.right,
         self_influence=getattr(args, "self_influence", False),
+        vectorize=args.vectorize,
     )

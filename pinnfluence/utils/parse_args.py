@@ -186,4 +186,11 @@ def parse_precalculate_args():
         action="store_true",
         help="Calculate self-influence using train_x_all as candidates",
     )
+    parser.add_argument(
+        "--vectorize",
+        action="store_const",
+        const="batched_grad",
+        default=None,
+        help="PINNfluence only: compute per-sample gradients with batched backward passes (same scores, faster on GPU)",
+    )
     return parser.parse_args()
