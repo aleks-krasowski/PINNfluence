@@ -24,6 +24,7 @@ dependencies = [
     "jupyter",
     "jupyterlab", 
     "ipykernel",
+    "ipympl",
     "matplotlib",
     "numpy",
     "seaborn",

@@ -16,6 +16,7 @@ graphify-out/
 *.pt
 *.npz
 !pinnfluence/data/*.npz
+!pinnfluence_torch/results/*/train_data.npz
 
 # temporary files
 tmp/

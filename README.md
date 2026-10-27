@@ -6,8 +6,13 @@
 
 ![Visual Abstract](./assets/pinnfluence_overview.png)
 
-This repository provides a CLI and a small library to reproduce the experiments, figures,
-and influence-based diagnostics from the paper.
+This repository contains two things:
+
+- [pinnfluence_torch/](pinnfluence_torch/): a small, PyTorch implementation of
+  PINNfluence that you can apply to your own PINN. **Start here if you want to use the method.**
+- [pinnfluence/](pinnfluence/): the DeepXDE-based CLI and library behind the experiments,
+  figures, and influence-based diagnostics in the paper. Start here if you want to reproduce
+  or extend the paper's results.
 
 ### Interactive web demo
 
@@ -15,14 +20,22 @@ Try PINNfluence in your browser: **[pinnfluence.hhi.fraunhofer.de](https://pinnf
 
 [![PINNfluence web demo](./assets/web_demo.png)](https://pinnfluence.hhi.fraunhofer.de)
 
-### Demo notebook
+### PyTorch demo: PINNfluence on your own PINN
 
-For a more in-depth exploration of the influence analysis, we provide a demo notebook,
-[notebooks/demo.ipynb](notebooks/demo.ipynb), which recreates
-the training and influence calculation for the drift-diffusion problem and shows how to
-generate point-wise heatmaps from the results. It is also a good starting point for running
-the analysis on the remaining problems. The demo runs reasonably quickly (≈ 5–20 min), so
-feel free to play around.
+You can find a demo notebook under [pinnfluence_torch/demo.ipynb](pinnfluence_torch/demo.ipynb), which trains a PINN on the drift-diffusion equation and walks through the analysis with PINNfluence.
+It also shows how one could build a wrapper around their own PINN to analyse it using the proposed method using the code implemented in [pinnfluence_torch/pinnfluence_torch.py](pinnfluence_torch/pinnfluence_torch.py).
+
+### Paper demo notebook (DeepXDE)
+
+[notebooks/demo.ipynb](notebooks/demo.ipynb) recreates the drift-diffusion experiment from
+the paper with an implementation based on [DeepXDE](https://github.com/lululxvi/deepxde) (a library for training PINNs) which was used in the manuscript.
+It is the right place to poke at what the paper covers and the starting point for running the
+analysis on the remaining problems (see [Reproducing the experiments](#reproducing-the-experiments)
+for the full pipeline). 
+
+> Since this notebook carries the full experiment machinery, it is a little more elaborate
+> than a demo strictly needs. To apply PINNfluence to your own model, use the PyTorch
+> demo above.
 
 ### Abstract
 
@@ -50,7 +63,6 @@ uv pip install .      # from inside the project root
 pip install .         # from inside the project root
 ```
 
-After installation you should be set to launch [notebooks/demo.ipynb](notebooks/demo.ipynb).
 
 > Note: the code should work with other Python versions (requires `>=3.11`), but we only
 > tested it on 3.13.
