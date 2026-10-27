@@ -99,14 +99,16 @@ well-trained, `BAD_PROBLEMS` for poorly-trained): `allen_cahn`, `burgers`, `diff
 If you use PINNfluence in your work, please cite:
 
 ```bibtex
-@misc{krasowski2026pinnfluenceinterpretingpinnsinfluence,
-      title={PINNfluence: Interpreting PINNs through Influence Functions}, 
-      author={Aleksander Krasowski and Jonas R. Naujoks and Moritz Weckbecker and Galip Ü. Yolcu and Thomas Wiegand and Sebastian Lapuschkin and Wojciech Samek and René P. Klausen},
-      year={2026},
-      eprint={2409.08958},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2409.08958}, 
+@InProceedings{krasowskinaujoks2026pinnfluence,
+  title = 	 {{PINN}fluence: Interpreting {PINN}s through Influence Functions},
+  author =       {Krasowski, Aleksander and Naujoks, Jonas and Weckbecker, Moritz and Yolcu, Galip \"{U}mit and Wiegand, Thomas and Lapuschkin, Sebastian and Samek, Wojciech and Klausen, Ren\'{e} Pascal},
+  booktitle = 	 {Proceedings of the 43rd International Conference on Machine Learning},
+  pages = 	 {61025--61064},
+  year = 	 {2026},
+  volume = 	 {306},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {06--11 Jul},
+  publisher =    {PMLR},
 }
 ```
 
