@@ -104,8 +104,13 @@ def instantiate_grad_dot(
     batch_size: int = None,
     use_train_set: bool = True,
     show_progress: bool = False,
+    vectorize: Optional[str] = None,
+    vectorize_chunk_size: int = 64,
 ):
-    """Create an instance of gradient-dot product estimator"""
+    """Create an instance of gradient-dot product estimator
+
+    vectorize / vectorize_chunk_size: as in `instantiate_IF`.
+    """
     data = model.data
     net = model.net
 
@@ -135,6 +140,8 @@ def instantiate_grad_dot(
         # Set checkpoint contribution to 1 to get grad dot product
         checkpoints_load_func=lambda x, y: 1,
         batch_size=batch_size,
+        vectorize=vectorize,
+        vectorize_chunk_size=vectorize_chunk_size,
     )
 
     return graddot
@@ -171,7 +178,7 @@ def calculate_influence_scores(
     end = time.time()
     print(f"Influence calculation took: {end - start}")
 
-    return influences.detach().numpy().astype(np.float32)
+    return influences.detach().cpu().numpy().astype(np.float32)
 
 
 def sample_random_points(

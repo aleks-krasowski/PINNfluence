@@ -258,7 +258,11 @@ def main(
     print("Instantiating influence function...")
     if scoring_method == "grad_dot":
         IF_instance = instantiate_grad_dot(
-            model, use_train_set=True, show_progress=False
+            model,
+            use_train_set=True,
+            show_progress=False,
+            batch_size=batch_size,
+            vectorize=vectorize,
         )
     else:
         IF_instance = instantiate_IF(
