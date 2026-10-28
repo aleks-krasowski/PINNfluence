@@ -1,6 +1,6 @@
 # PINNfluence: Interpreting PINNs through Influence Functions
 
-*Aleksander Krasowski\*, Jonas R. Naujoks\*, Moritz Weckbecker, Galip Ü. Yolcu, Thomas Wiegand, Sebastian Lapuschkin, Wojciech Samek, René P. Klausen* — **ICML 2026**
+_Aleksander Krasowski\*, Jonas R. Naujoks\*, Moritz Weckbecker, Galip Ü. Yolcu, Thomas Wiegand, Sebastian Lapuschkin, Wojciech Samek, René P. Klausen_ — **ICML 2026**
 
 [![arXiv](https://img.shields.io/badge/arXiv-2409.08958-b31b1b.svg)](https://arxiv.org/abs/2409.08958) [![Web demo](https://img.shields.io/badge/Web%20demo-pinnfluence.hhi.fraunhofer.de-blue)](https://pinnfluence.hhi.fraunhofer.de) [![Poster](https://img.shields.io/badge/Poster-ICML%202026-purple)](https://icml.cc/virtual/2026/poster/61837)
 
@@ -18,6 +18,8 @@ This repository contains two things:
 
 Try PINNfluence in your browser: **[pinnfluence.hhi.fraunhofer.de](https://pinnfluence.hhi.fraunhofer.de)**
 
+> Credit and a big thank you go to my colleague and friend Gerrit Dolderer, who implemented the demo!
+
 [![PINNfluence web demo](./assets/web_demo.png)](https://pinnfluence.hhi.fraunhofer.de)
 
 ### PyTorch demo: PINNfluence on your own PINN
@@ -31,7 +33,7 @@ It also shows how one could build a wrapper around their own PINN to analyse it 
 the paper with an implementation based on [DeepXDE](https://github.com/lululxvi/deepxde) (a library for training PINNs) which was used in the manuscript.
 It is the right place to poke at what the paper covers and the starting point for running the
 analysis on the remaining problems (see [Reproducing the experiments](#reproducing-the-experiments)
-for the full pipeline). 
+for the full pipeline).
 
 > Since this notebook carries the full experiment machinery, it is a little more elaborate
 > than a demo strictly needs. To apply PINNfluence to your own model, use the PyTorch
@@ -62,7 +64,6 @@ uv pip install .      # from inside the project root
 ```bash
 pip install .         # from inside the project root
 ```
-
 
 > Note: the code should work with other Python versions (requires `>=3.11`), but we only
 > tested it on 3.13.
@@ -100,14 +101,14 @@ If you use PINNfluence in your work, please cite:
 
 ```bibtex
 @InProceedings{krasowskinaujoks2026pinnfluence,
-  title = 	 {{PINN}fluence: Interpreting {PINN}s through Influence Functions},
+  title =   {{PINN}fluence: Interpreting {PINN}s through Influence Functions},
   author =       {Krasowski, Aleksander and Naujoks, Jonas and Weckbecker, Moritz and Yolcu, Galip \"{U}mit and Wiegand, Thomas and Lapuschkin, Sebastian and Samek, Wojciech and Klausen, Ren\'{e} Pascal},
-  booktitle = 	 {Proceedings of the 43rd International Conference on Machine Learning},
-  pages = 	 {61025--61064},
-  year = 	 {2026},
-  volume = 	 {306},
-  series = 	 {Proceedings of Machine Learning Research},
-  month = 	 {06--11 Jul},
+  booktitle =   {Proceedings of the 43rd International Conference on Machine Learning},
+  pages =   {61025--61064},
+  year =   {2026},
+  volume =   {306},
+  series =   {Proceedings of Machine Learning Research},
+  month =   {06--11 Jul},
   publisher =    {PMLR},
 }
 ```
