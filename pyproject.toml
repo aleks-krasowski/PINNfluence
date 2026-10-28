@@ -9,12 +9,12 @@ authors = [
   {name = "Aleksander Krasowski", email = "aleksander.krasowski@hhi.fraunhofer.de"}
 ]
 description = "Implementation for PINNfluence: Interpreting PINNs through Influence Functions"
-license = {text = "BSD 3-Clause"}
+license = "BSD-3-Clause-Clear"
+license-files = ["LICENSE"]
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: BSD 3-Clause License",
     "Operating System :: OS Independent",
     "Private :: Do Not Upload"
 ]
@@ -37,8 +37,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://gitlab.fe.hhi.de/pinns/pinnfluence"
-Issues = "https://gitlab.fe.hhi.de/pinns/pinnfluence"
+Homepage = "https://github.com/aleks-krasowski/PINNfluence"
+Issues = "https://github.com/aleks-krasowski/PINNfluence/issues"
 
 
 [tool.pdm]
