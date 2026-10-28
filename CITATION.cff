@@ -1,0 +1,61 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "PINNfluence: Interpreting PINNs through Influence Functions"
+type: software
+version: 1.0.1
+license: BSD-3-Clause-Clear
+repository-code: "https://github.com/aleks-krasowski/PINNfluence"
+identifiers:
+  - type: url
+    value: "https://arxiv.org/abs/2409.08958"
+    description: arXiv preprint
+authors:
+  - family-names: Krasowski
+    given-names: Aleksander
+  - family-names: Naujoks
+    given-names: Jonas
+  - family-names: Weckbecker
+    given-names: Moritz
+  - family-names: Yolcu
+    given-names: Galip Ümit
+  - family-names: Wiegand
+    given-names: Thomas
+  - family-names: Lapuschkin
+    given-names: Sebastian
+  - family-names: Samek
+    given-names: Wojciech
+  - family-names: Klausen
+    given-names: René Pascal
+preferred-citation:
+  type: conference-paper
+  title: "PINNfluence: Interpreting PINNs through Influence Functions"
+  authors:
+    - family-names: Krasowski
+      given-names: Aleksander
+    - family-names: Naujoks
+      given-names: Jonas
+    - family-names: Weckbecker
+      given-names: Moritz
+    - family-names: Yolcu
+      given-names: Galip Ümit
+    - family-names: Wiegand
+      given-names: Thomas
+    - family-names: Lapuschkin
+      given-names: Sebastian
+    - family-names: Samek
+      given-names: Wojciech
+    - family-names: Klausen
+      given-names: René Pascal
+  collection-title: "Proceedings of the 43rd International Conference on Machine Learning"
+  collection-type: proceedings
+  conference:
+    name: "International Conference on Machine Learning (ICML)"
+    date-start: 2026-07-06
+    date-end: 2026-07-11
+  publisher:
+    name: PMLR
+  volume: 306
+  start: 61025
+  end: 61064
+  year: 2026
+  month: 7
